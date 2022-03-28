@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SortieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +48,40 @@ class Sortie
      * @ORM\Column(type="text")
      */
     private $description;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Participants::class, mappedBy="sortie")
+     */
+    private $participants;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=lieu::class, inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $lieu;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $site;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=etat::class, inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $etat;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Participants::class, inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organisateur;
+
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -123,4 +159,88 @@ class Sortie
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Participants>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(Participants $participant): self
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants[] = $participant;
+            $participant->addSortie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(Participants $participant): self
+    {
+        if ($this->participants->removeElement($participant)) {
+            $participant->removeSortie($this);
+        }
+
+        return $this;
+    }
+
+    public function setParticipants(?Participants $participants): self
+    {
+        $this->participants = $participants;
+
+        return $this;
+    }
+
+    public function getLieu(): ?lieu
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?lieu $lieu): self
+    {
+        $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
+    public function getEtat(): ?etat
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?etat $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?Participants
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?Participants $organisateur): self
+    {
+        $this->organisateur = $organisateur;
+
+        return $this;
+    }
+
+
 }
