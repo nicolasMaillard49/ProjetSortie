@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de {{ participants.pseudo }}{% endblock %}
+
+{% block body %}
+<img src="..." class="img-thumbnail" alt="Image de profil">
+
+<h3>Profil {{ participants.pseudo|capitalize }}</h3>
+<div class="input-group input-group-sm mb-3">
+    <p class="input-group-text" id="inputGroup-sizing-sm">Prénom : {{ participants.prenom }}</p>
+</div>
+
+<div class="input-group input-group-sm mb-3">
+    <p class="input-group-text" id="inputGroup-sizing-sm">Nom : {{ participants.nom }}</p>
+    </div>
+
+    <div class="input-group input-group-sm mb-3">
+        <p class="input-group-text" id="inputGroup-sizing-sm">Téléphone : {{ participants.tel }}</p>
+    </div>
+
+    <div class="input-group input-group-sm mb-3">
+        <p class="input-group-text" id="inputGroup-sizing-sm">Email : {{ participants.email }}</p>
+    </div>
+
+    <div class="input-group input-group-sm mb-3">
+        <p class="input-group-text" id="inputGroup-sizing-sm">Ville de rattachement : {{ participants.site.nom }}</p>
+    </div>
+    <button type="button" class="btn btn-outline-secondary">Retour</button>
+
+    {% endblock %}
