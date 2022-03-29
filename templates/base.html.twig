@@ -12,6 +12,8 @@
 </head>
 {% if app.user%}
     {% set menu = { "Accueil":"app_main","Mon profil":"app_main","Se déconnecter":"app_logout" } %}
+    {% else %}
+    {% set menu = { "Accueil":"app_main" } %}
 {% endif %}
 
 <body>
