@@ -24,10 +24,10 @@ class ProfilController extends AbstractController
      */
     public function detail($id): Response
     {
-        if($this->getUser()){
+        if(!$this->getUser()){
             return $this->redirectToRoute('app_login');
         }
         $participants = $this->participantsRepo->find($id);
-        return $this->render('profil/index.html.twig', compact("participants"));
+        return $this->render('/profil/index.html.twig', compact("participants"));
     }
 }
