@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Créer une sortie</title>
+</head>
+<body>
+
+    <h3>Créer une sortie</h3>
+    <div class="col-md-6">
+        <div class="input-group input-group-sm mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Nom de la sortie :</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+        </div>
+
+        <form>
+            <label>Date et heure de la sortie :
+              <input type="date" name="party" min="2017-04-01" max="2022-04-30">
+            </label>
+          </form>
+     <form>
+        <label>Date limite d'inscription :
+          <input type="date" name="party" min="2017-04-01" max="2022-04-30">
+        </label>
+      </form>
+    </div>
+         <div class="col-md-6">
+        <div class="input-group input-group-sm mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Nombre de place :</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+        </div>
+
+        <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-sm">Durée :</span>
+        <input type="number" id="b" name="b" value="90">
+    </div>
+        
+    <span class="input-group-text" id="inputGroup-sizing-sm">Description et informations :</span>
+        <form class="form-floating">
+            <input type="text" class="form-control" placeholder="Ecrivez quelque chose ...">
+        </input>
+          </form>
+
+          <div class="input-group input-group-sm mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Ville organistrice :</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+        </div>
+
+        <div class="input-group input-group-sm mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Ville :</span>
+            <select class="form-select" aria-label="Default select example">
+                <option value="1">SAINT-HERBLAIN</option>
+                <option value="2">ANGERS</option>
+                <option value="3">PARIS</option>
+              </select>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Lieu :</span>
+            <select class="form-select" aria-label="Default select example">
+                <option value="1">SAINT-HERBLAIN</option>
+                <option value="2">ANGERS</option>
+                <option value="3">PARIS</option>
+              </select>
+        </div> 
+        <button type="button" class="btn btn-primary">Ajouter</button>
+    
+        <div class="input-group input-group-sm mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Rue :</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+        </div>
+
+        <div class="input-group input-group-sm mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Code postal :</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Latitude :</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Longitude :</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+        </div>
+
+        <button type="button" class="btn btn-primary">Enregistrer</button>
+        <button type="button" class="btn btn-success">Publier</button>
+        <button type="button" class="btn btn-secondary">Annuler</button>
+
+</body>
+</html>
