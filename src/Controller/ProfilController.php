@@ -7,9 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/profil", name="app_profil_")
- */
+
 class ProfilController extends AbstractController
 {
 
@@ -22,7 +20,7 @@ class ProfilController extends AbstractController
 
 
     /**
-     * @Route("/{id}", name="profil")
+     * @Route("profil/{id}", name="app_profil")
      */
     public function detail($id): Response
     {

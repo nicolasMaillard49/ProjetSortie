@@ -10,25 +10,26 @@
     {% block stylesheets %}
     {% endblock %}
 </head>
-{% if app.user%}
-    {% set menu = { "Accueil":"app_main","Mon profil":"app_main","Se déconnecter":"app_logout" } %}
-    {% else %}
-    {% set menu = { "Accueil":"app_main" } %}
-{% endif %}
+
+
 
 <body>
 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand " href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            {% for key, value in menu %}
-                <a class="nav-item nav-link" href="{{ path(value) }}" >{{ key }}</a>
-            {% endfor %}
+            {% if app.user%}
+                <a class="nav-item nav-link" href="{{ path(value) }}" >Accueil</a>
+                <a class="nav-item nav-link" href="{{ path("app_profil",{id:app.user.id})}}">Mon Profil </a>
+                <a class="nav-item nav-link" href="{{ path(value) }}" >Se déconnecter</a>
+                {% else %}Mon Profil
+                    <a class="nav-item nav-link" href="{{ path("app_login") }}" >Se connecter</a>
+            {% endif %}
         </div>
     </div>
 </nav>
