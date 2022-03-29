@@ -38,6 +38,13 @@ class SortieController extends AbstractController
     }
 
     /**
+     * @Route("/sortie", name="app_liste_sortie")
+     */
+    public function listage(): Response
+    {
+        return $this->render('sortie/liste_sorties.html.twig');
+    }
+   /**
      * @Route("/create", name="app_create")
      */
     public function create(Request $request, EntityManagerInterface $em, EtatRepository $etarepo): Response
@@ -71,4 +78,8 @@ class SortieController extends AbstractController
             'formSortie' => $formSortie->createView()
         ]);
     }
+
+
+
+
 }
