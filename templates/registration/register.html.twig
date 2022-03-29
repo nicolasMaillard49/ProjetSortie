@@ -19,20 +19,11 @@
         {{ form_row(registrationForm.pseudo) }}
         {{ form_row(registrationForm.tel) }}
         {{ form_row(registrationForm.site) }}
-        {{ form_row(registrationForm.actif) }}
-        {{ form_row(registrationForm.organisateur) }}
 
     {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
         {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
-        <div class="row-cols-4">
-
-        </div>
-
+        {{ form_row(registrationForm.SignIn) }}
     </div>
-
 {% endblock %}
