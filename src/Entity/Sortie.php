@@ -32,7 +32,7 @@ class Sortie
     /**
      * @ORM\Column(type="date")
      */
-    private $durre;
+    private $duree;
 
     /**
      * @ORM\Column(type="date")
@@ -112,14 +112,14 @@ class Sortie
         return $this;
     }
 
-    public function getDurre(): ?\DateTimeInterface
+    public function getDuree(): ?\DateTimeInterface
     {
-        return $this->durre;
+        return $this->duree;
     }
 
-    public function setDurre(\DateTimeInterface $durre): self
+    public function setDuree(\DateTimeInterface $duree): self
     {
-        $this->durre = $durre;
+        $this->duree = $duree;
 
         return $this;
     }
