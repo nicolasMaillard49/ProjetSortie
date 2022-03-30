@@ -12,10 +12,13 @@ use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 
 
 
@@ -73,7 +76,6 @@ class SortieController extends AbstractController
       $sortie = $this->sortierepo->find($id);
 
 
-        /*  dd($sortie);*/
 
      return $this->render('sortie/detail_sortie.html.twig',compact('sortie'));
     }
@@ -124,16 +126,27 @@ class SortieController extends AbstractController
             'formSortie' => $formSortie->createView()
         ]);
 
-
-      function __tostring(Sortie $sortie):String
-      {
-          return $sortie;
-      }
-
-
-
-
     }
 
+
+    /**
+     * @Route("/inscription/{sortie<\d+>}/participants/{participants_id<\d+>}", name="app_inscription")
+     *@Entity (
+     *     "participants",
+     *     expr="repository.find(participants_id)"
+     * )
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function inscription(Sortie $sortie, Participants $participants): Response
+    {
+
+
+        $sortie->addParticipant($participants);
+
+      $this->sortierepo->add($sortie);
+
+
+       return $this->render('sortie/detail_sortie.html.twig',compact('sortie'));
+    }
 
 }

@@ -24,7 +24,7 @@ class SortieType extends AbstractType
             ->add('dateLimiteInscription')
             ->add('inscriptionMax')
             ->add('description')
-            ->add('participants',EntityType::class,['class'=>Participants::class,'choice_label'=>'nom','multiple'=>true])
+            //->add('participants',EntityType::class,['class'=>Participants::class,'choice_label'=>'nom','multiple'=>true])
             ->add('lieu',EntityType::class,['class'=>Lieu::class,'choice_label'=>'nom'])
             ->add('site',EntityType::class,['class'=>Site::class,'choice_label'=>'nom','expanded'=>false,'multiple'=>false])
             //->add('etat',EntityType::class,['class'=>Etat::class,'choice_label'=>'libelle'])

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-   details de la sortie
+    les sorties
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
 
         <br>
         <div class="row text-center">
-            <h1>Détail de la sortie</h1>
+            <h1>Voici les Sorties</h1>
         </div>
         {#{% for message in app.flashes('succes') %}
             <div class="alert alert-success text-center">
@@ -24,26 +24,24 @@
                 <th scope="col">nom</th>
                 <th scope="col">debut</th>
                 <th scope="col">duree</th>
-                <th scope="col">Date limite d'inscription</th>
+                <th scope="col">Date limite</th>
                 <th scope="col">Description</th>
-                <th scope="col">Nombre de places</th>
-                <th scope="col">Ville organisatrice</th>
+                <th scope="col">places</th>
+                <th scope="col">site</th>
                 <th scope="col">Lieu</th>
                 <th scope="col">Rue</th>
-                <th scope="col">Code postal</th>
+                <th scope="col">postal</th>
                 <th scope="col">Latitude</th>
                 <th scope="col">Longitude</th>
             </tr>
             </thead>
             <tbody>
-            {% set count = 0 %}
-                {% set count = count+1 %}
                 <tr>
                     <td>{{ sortie.nom }}</td>
                     <td>{{sortie.dateHeureDebut|date(" d/m/Y H:i ")}}</td>
                     <td>{{ sortie.duree |date(" H:i ")}}</td>
                     <td>{{sortie.dateLimiteInscription|date(" d/m/Y H:i ")}} </td>
-                    <td>{{ sortie.description }}</td>
+                    <td>{{ sortie.description|slice(0,80) }}...</td>
                     <td>{{ sortie.inscriptionMax }}</td>
                     <td>{{ sortie.site }}</td>
                     <td>{{ sortie.lieu.nom }}</td>
@@ -51,10 +49,35 @@
                     <td>{{ sortie.lieu.ville.codePostal }}</td>
                     <td>{{ sortie.lieu.latitude }}</td>
                     <td>{{ sortie.lieu.longitude }}</td>
-
                 </tr>
-
             </tbody>
         </table>
+        {% set count = 0 %}
+        {% set count = count+1 %}
+        <div class="container">
+<div class="row">
+    <div class="col-4">
+        <table class="table table-hover table-dark text-center">
+            <thead>
+            <tr>
+                <th>nombre</th>
+                <th>participant</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">{{ count }}</th>
+                <td>{{ sortie.participants.0 }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+            <a class="btn btn-primary" href="{{ path('app_inscription',{sortie:sortie.id, participants_id:app.user.id}) }}">
+                Participer
+            </a>
+        </div>
     </div>
 {% endblock %}
