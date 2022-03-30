@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    les sorties
+    détail sortie
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
 
         <br>
         <div class="row text-center">
-            <h1>Voici les Sorties</h1>
+            <h1>detail de "{{ sortie.nom }}"</h1>
         </div>
         {#{% for message in app.flashes('succes') %}
             <div class="alert alert-success text-center">
@@ -66,19 +66,22 @@
         <div class="container">
 <div class="row">
     <div class="col-4">
+        <h2>Liste des participant :</h2>
         <table class="table table-hover table-dark text-center">
             <thead>
             <tr>
                 <th>nombre</th>
-                <th>participant</th>
+                <th>pseudo</th>
+                <th>nom</th>
             </tr>
             </thead>
             <tbody>
-            {% for sortie in sortie.participants %}
+            {% for participant in sortie.participants %}
                 {% set count = count+1 %}
             <tr>
                 <th scope="row">{{ count  }}</th>
-                <td>{{ sortie }}</td>
+                <td>{{ participant.pseudo }}</td>
+                <td>{{  participant.nom }}</td>
             </tr>
             {% endfor %}
             </tbody>
