@@ -9,7 +9,7 @@
 
         <br>
         <div class="row text-center">
-            <h1>Voici les Sortie</h1>
+            <h1>Détail de la sortie</h1>
         </div>
         {#{% for message in app.flashes('succes') %}
             <div class="alert alert-success text-center">
@@ -21,24 +21,37 @@
         <table class="table table-hover table-dark text-center no-padding">
             <thead>
             <tr>
-                <th scope="col">nombre</th>
                 <th scope="col">nom</th>
                 <th scope="col">debut</th>
                 <th scope="col">duree</th>
-                <th scope="col">date limite</th>
+                <th scope="col">Date limite d'inscription</th>
                 <th scope="col">Description</th>
+                <th scope="col">Nombre de places</th>
+                <th scope="col">Ville organisatrice</th>
+                <th scope="col">Lieu</th>
+                <th scope="col">Rue</th>
+                <th scope="col">Code postal</th>
+                <th scope="col">Latitude</th>
+                <th scope="col">Longitude</th>
             </tr>
             </thead>
             <tbody>
             {% set count = 0 %}
                 {% set count = count+1 %}
                 <tr>
-                    <th scope="row">{{ count }}</th>
-                    <td><a href=""></a>{{ sortie.nom }}</td>
-                    <td>{{sortie.dateHeureDebut|date(" d-m-Y H:i ")}}</td>
+                    <td>{{ sortie.nom }}</td>
+                    <td>{{sortie.dateHeureDebut|date(" d/m/Y H:i ")}}</td>
                     <td>{{ sortie.duree |date(" H:i ")}}</td>
-                    <td>{{sortie.dateLimiteInscription|date(" d-m-Y H:i ")}} </td>
+                    <td>{{sortie.dateLimiteInscription|date(" d/m/Y H:i ")}} </td>
                     <td>{{ sortie.description }}</td>
+                    <td>{{ sortie.inscriptionMax }}</td>
+                    <td>{{ sortie.site }}</td>
+                    <td>{{ sortie.lieu.nom }}</td>
+                    <td>{{ sortie.lieu.rue }}</td>
+                    <td>{{ sortie.lieu.ville.codePostal }}</td>
+                    <td>{{ sortie.lieu.latitude }}</td>
+                    <td>{{ sortie.lieu.longitude }}</td>
+
                 </tr>
 
             </tbody>
