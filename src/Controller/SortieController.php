@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,15 +51,16 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/sortie_listage", name="app_liste_sortie")
+     * @IsGranted("ROLE_USER")
      */
     public function listage(): Response
     {
-      $sortie = new Sortie();
+        if( !$this->getUser()) {
+            return $this->render('security/login.html.twig');
+        }
+            $sortie = new Sortie();
 
-      $sortie = $this->sortierepo->findAll();
-
-
-/*      dd($sorti,$sortie,$nom);*/
+            $sortie = $this->sortierepo->findAll();
 
      return $this->render('sortie/liste_sorties.html.twig',[
             'sorties'=>$sortie
@@ -82,6 +84,7 @@ class SortieController extends AbstractController
 
    /**
      * @Route("/create", name="app_create")
+    * @IsGranted("ROLE_ADMIN")
      */
     public function create(Request $request, EntityManagerInterface $em, EtatRepository $etarepo,ParticipantsRepository $partirepo): Response
     {
@@ -135,6 +138,7 @@ class SortieController extends AbstractController
      *     "participants",
      *     expr="repository.find(participants_id)"
      * )
+     * @IsGranted("ROLE_ADMIN")
      * @throws \Doctrine\ORM\ORMException
      */
     public function inscription(Sortie $sortie, Participants $participants): Response
