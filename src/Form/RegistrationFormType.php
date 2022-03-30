@@ -6,6 +6,7 @@ use App\Entity\Participants;
 use App\Entity\Site;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,6 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\File;
 
 class RegistrationFormType extends AbstractType
 {
@@ -45,6 +47,25 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+
+//            ->add('file', FileType::class,[
+//                'label' => 'Photo',
+//                'mapped' => false,
+//                'required'=>false,
+//                'constraints'=>[
+//                    new File([
+//                        'maxSize' => '1024k',
+//                        'mimeTypes' =>[
+//                            'application/JPEG',
+//                            'application/JPG',
+//                            'application/PNG',
+//                        ],
+//                        'mimeTypesMessage' =>'Veuillez déposer une image au format jpeg, jpg ou png svp',
+//                    ])
+//                ],
+//            ])
+
+
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

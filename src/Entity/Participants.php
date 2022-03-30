@@ -84,6 +84,7 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $sorties;
 
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
