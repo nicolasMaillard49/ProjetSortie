@@ -55,7 +55,7 @@
                         </div>
                     <div class="mt-5 text-center">
                         {% if (is_granted('ROLE_ADMIN')) or (app.user.id==participants.id) %}
-                        <a href="{{ path('app_profil_modifier_id', {id:app.user.id}) }}"><button type="button" class="btn btn-primary mx-3">Modifier</button></a>
+                        <a href="{{ path('app_profil_modifier_id', {id:participants.id}) }}"><button type="button" class="btn btn-primary mx-3">Modifier</button></a>
                         {% endif %}
                         <a href="{{ path('app_liste_sortie') }}"><button type="button" class="btn btn-primary mx-3">Retour</button></a>
                     </div>
