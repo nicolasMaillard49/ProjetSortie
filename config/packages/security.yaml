@@ -10,6 +10,13 @@ security:
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
+            chain:
+                providers: [ db_username, db_email ]
+        db_username:
+            entity:
+                class: App\Entity\Participants
+                property: pseudo
+        db_email:
             entity:
                 class: App\Entity\Participants
                 property: email
