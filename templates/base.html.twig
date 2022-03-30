@@ -37,7 +37,7 @@
             {% if app.user %}
 
                 <a class="nav-item nav-link" href="{{ path("app_liste_sortie") }}">Accueil</a>
-                <a class="nav-item nav-link" href="{{ path("app_profil",{id:app.user.id}) }}">Mon Profil </a>
+                <a class="nav-item nav-link" href="{{ path("app_profil_id",{id:app.user.id}) }}">Mon Profil </a>
                 <a class="nav-item nav-link" href="{{ path("app_logout") }}">Se déconnecter</a>
 
             {% else %}
