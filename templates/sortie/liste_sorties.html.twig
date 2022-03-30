@@ -32,11 +32,11 @@
             {% for sortie in sorties %}
 
                 <tr>
-                    <td><a href="{{ path('app_detail_sortie', { id:sortie.id }) }}">{{ sortie.nom }}</a></td>
+                    <td><a class="text-reset" href="{{ path('app_detail_sortie', { id:sortie.id }) }}">{{ sortie.nom }}</a></td>
                     <td>{{sortie.dateHeureDebut|date(" d/m/Y H:i ")}}</td>
                     <td>{{ sortie.duree |date(" H:i ")}}</td>
                     <td>{{sortie.dateLimiteInscription|date(" d/m/Y H:i ")}} </td>
-                    <td>{{ sortie.description }}</td>
+                    <td>{{ sortie.description|slice(0,80) }}...</td>
                 </tr>
 
             {% endfor %}
