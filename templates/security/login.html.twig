@@ -1,5 +1,5 @@
 {% extends 'base.html.twig ' %}
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
 <div class="container">
@@ -26,13 +26,13 @@
                     </div>
                 {% endif %}
 
-                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-                <label for="inputEmail">Email</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control my-3"
+                <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+                <label for="inputEmail">Email/pseudo</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control my-3 border border-primary"
                        autocomplete="email" required autofocus>
-                <label for="inputPassword">Password</label>
+                <label for="inputPassword">Mot de passe</label>
                 <br>
-                <input type="password" name="password" id="inputPassword" class="form-control my-3"
+                <input type="password" name="password" id="inputPassword" class="form-control my-3 border border-primary"
                        autocomplete="current-password" required>
                 <input type="hidden" name="_csrf_token"
                        value="{{ csrf_token('authenticate') }}"
@@ -43,13 +43,13 @@
 
                 <div class="checkbox mt-3">
                     <label>
-                        <input type="checkbox" name="_remember_me"> Remember me
+                        <input type="checkbox" name="_remember_me"> Se souvenir de moi
                     </label>
                 </div>
 
                 <br>
                 <button class="btn btn-lg btn-primary" type="submit">
-                    Sign in
+                   Se Connecter
                 </button>
             </form>
         </div>
