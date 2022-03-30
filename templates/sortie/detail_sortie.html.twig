@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-   les sorties
+   details de la sortie
 {% endblock %}
 
 {% block body %}
@@ -31,19 +31,16 @@
             </thead>
             <tbody>
             {% set count = 0 %}
-            {% for sortie in sorties %}
-
                 {% set count = count+1 %}
                 <tr>
                     <th scope="row">{{ count }}</th>
-                    <td><a href="{{ path('app_detail_sortie', { id:sortie.id }) }}">{{ sortie.nom }}</a></td>
+                    <td><a href=""></a>{{ sortie.nom }}</td>
                     <td>{{sortie.dateHeureDebut|date(" d-m-Y H:i ")}}</td>
                     <td>{{ sortie.duree |date(" H:i ")}}</td>
                     <td>{{sortie.dateLimiteInscription|date(" d-m-Y H:i ")}} </td>
                     <td>{{ sortie.description }}</td>
                 </tr>
 
-            {% endfor %}
             </tbody>
         </table>
     </div>

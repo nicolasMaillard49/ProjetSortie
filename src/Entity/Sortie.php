@@ -25,17 +25,17 @@ class Sortie
     private $nom;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $dateHeureDebut;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="time")
      */
     private $duree;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $dateLimiteInscription;
 
@@ -241,6 +241,10 @@ class Sortie
 
         return $this;
     }
+    public function __toString()
+    {
 
+        return $this->dateHeureDebut;
+    }
 
 }

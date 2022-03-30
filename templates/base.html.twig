@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}Document{% endblock %}</title>
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{asset('css/Style.css') }}">
     {% block stylesheets %}
     {% endblock %}
 </head>
@@ -24,7 +25,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             {% if app.user%}
-                <a class="nav-item nav-link" href="{{ path("app_main") }}" >Accueil</a>
+                <a class="nav-item nav-link" href="{{ path("app_liste_sortie") }}" >Accueil</a>
                 <a class="nav-item nav-link" href="{{ path("app_profil",{id:app.user.id})}}">Mon Profil </a>
                 <a class="nav-item nav-link" href="{{ path("app_logout") }}">Se déconnecter</a>
                 {% else %}

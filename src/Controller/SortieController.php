@@ -38,12 +38,38 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/sortie", name="app_liste_sortie")
+     * @Route("/sortie_listage", name="app_liste_sortie")
      */
     public function listage(): Response
     {
-        return $this->render('sortie/liste_sorties.html.twig');
+      $sortie = new Sortie();
+
+      $sortie = $this->sortierepo->findAll();
+
+
+/*      dd($sorti,$sortie,$nom);*/
+
+     return $this->render('sortie/liste_sorties.html.twig',[
+            'sorties'=>$sortie
+        ]);
     }
+
+
+    /**
+     * @Route("/detail_sortie/{id}", name="app_detail_sortie")
+     */
+    public function detail($id): Response
+    {
+      $sortie = new Sortie();
+
+      $sortie = $this->sortierepo->find($id);
+
+
+        /*  dd($sortie);*/
+
+     return $this->render('sortie/detail_sortie.html.twig',compact('sortie'));
+    }
+
    /**
      * @Route("/create", name="app_create")
      */
@@ -73,13 +99,20 @@ class SortieController extends AbstractController
 
         }
 
-
-        return $this->render('sortie/index.html.twig', [
+        return $this->render('sortie/create_sortie.html.twig', [
             'formSortie' => $formSortie->createView()
         ]);
+
+
+      function __tostring(Sortie $sortie):String
+      {
+          return $sortie;
+      }
+
+
+
+
     }
-
-
 
 
 }
