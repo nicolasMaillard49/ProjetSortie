@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,7 +26,7 @@ class ModifyUserType extends AbstractType
             ->add('prenom', TextType::class,[
                 'attr'=>["class"=>"border border-primary"]
             ])
-            ->add('tel', NumberType::class,[
+            ->add('tel', TelType::class,[
                 'attr'=>["class"=>"border border-primary"]
             ])
             ->add('pseudo', TextType::class,[
