@@ -44,9 +44,12 @@ class ProfilController extends AbstractController
         if(!$this->getUser()){
             return $this->redirectToRoute('app_login');
         }
-        if(!$this->isGranted('ROLE_ADMIN') or $this->getUser()->getId()!=$id){
-            return $this->redirectToRoute('app_liste_sortie');
+        if($this->getUser()->getId()!=$id){
+            if(!$this->isGranted('ROLE_ADMIN')){
+                return $this->redirectToRoute('app_liste_sortie');
+            }
         }
+
         $user = $this->getUser();
         $modifyUserForm = $this->createForm(ModifyUserType::class, $user);
         $modifyUserForm->handleRequest($request);
