@@ -9,7 +9,7 @@
 
         <br>
         <div class="row text-center">
-            <h1>Voici les Sortie</h1>
+            <h1>Voici les Sorties</h1>
         </div>
         {#{% for message in app.flashes('succes') %}
             <div class="alert alert-success text-center">
@@ -21,7 +21,6 @@
         <table class="table table-hover table-dark text-center no-padding">
             <thead>
             <tr>
-                <th scope="col">nombre</th>
                 <th scope="col">nom</th>
                 <th scope="col">debut</th>
                 <th scope="col">duree</th>
@@ -30,16 +29,13 @@
             </tr>
             </thead>
             <tbody>
-            {% set count = 0 %}
             {% for sortie in sorties %}
 
-                {% set count = count+1 %}
                 <tr>
-                    <th scope="row">{{ count }}</th>
                     <td><a href="{{ path('app_detail_sortie', { id:sortie.id }) }}">{{ sortie.nom }}</a></td>
-                    <td>{{sortie.dateHeureDebut|date(" d-m-Y H:i ")}}</td>
+                    <td>{{sortie.dateHeureDebut|date(" d/m/Y H:i ")}}</td>
                     <td>{{ sortie.duree |date(" H:i ")}}</td>
-                    <td>{{sortie.dateLimiteInscription|date(" d-m-Y H:i ")}} </td>
+                    <td>{{sortie.dateLimiteInscription|date(" d/m/Y H:i ")}} </td>
                     <td>{{ sortie.description }}</td>
                 </tr>
 
