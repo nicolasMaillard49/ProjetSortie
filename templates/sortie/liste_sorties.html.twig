@@ -37,7 +37,7 @@
                     <td>{{sortie.dateHeureDebut|date(" d/m/Y H:i ")}}</td>
                     <td>{{ sortie.duree |date(" H:i ")}}</td>
                     <td>{{sortie.dateLimiteInscription|date(" d/m/Y H:i ")}} </td>
-                    <td>{{ sortie.organisateur.pseudo }}</td>
+                    <td><a class="text-reset" href="{{  path('app_profil_id', { id:sortie.organisateur.id }) }} ">{{ sortie.organisateur.pseudo }}</td>
                     <td>{{ sortie.description|slice(0,80) }}...</td>
                 </tr>
 
