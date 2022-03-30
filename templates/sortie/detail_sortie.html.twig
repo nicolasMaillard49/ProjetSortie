@@ -26,15 +26,9 @@
                 <th scope="col">duree</th>
                 <th scope="col">Date limite</th>
                 <th scope="col">Description</th>
-                <th scope="col">places</th>
-                <th scope="col">site</th>
-                <th scope="col">Lieu</th>
-                <th scope="col">Rue</th>
-                <th scope="col">postal</th>
-                <th scope="col">Latitude</th>
-                <th scope="col">Longitude</th>
             </tr>
             </thead>
+
             <tbody>
                 <tr>
                     <td>{{ sortie.nom }}</td>
@@ -42,6 +36,22 @@
                     <td>{{ sortie.duree |date(" H:i ")}}</td>
                     <td>{{sortie.dateLimiteInscription|date(" d/m/Y H:i ")}} </td>
                     <td>{{ sortie.description|slice(0,80) }}...</td>
+            </tbody>
+        </table>
+
+        <table class="table table-hover table-dark text-center no-padding">
+            <thead>
+            <tr>
+                <th scope="col">places</th>
+                <th scope="col">site</th>
+                <th scope="col">Lieu</th>
+                <th scope="col">Rue</th>
+                <th scope="col">postal</th>
+                <th scope="col">Latitude</th>
+                <th scope="col">Longitude</th>
+
+        <tbody>
+                 <tr>
                     <td>{{ sortie.inscriptionMax }}</td>
                     <td>{{ sortie.site }}</td>
                     <td>{{ sortie.lieu.nom }}</td>
@@ -50,10 +60,9 @@
                     <td>{{ sortie.lieu.latitude }}</td>
                     <td>{{ sortie.lieu.longitude }}</td>
                 </tr>
-            </tbody>
+        </tbody>
         </table>
         {% set count = 0 %}
-        {% set count = count+1 %}
         <div class="container">
 <div class="row">
     <div class="col-4">
@@ -65,16 +74,18 @@
             </tr>
             </thead>
             <tbody>
+            {% for sortie in sortie.participants %}
+                {% set count = count+1 %}
             <tr>
-                <th scope="row">{{ count }}</th>
-                <td>{{ sortie.participants.0 }}</td>
+                <th scope="row">{{ count  }}</th>
+                <td>{{ sortie }}</td>
             </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>
 
 </div>
-
             <a class="btn btn-primary" href="{{ path('app_inscription',{sortie:sortie.id, participants_id:app.user.id}) }}">
                 Participer
             </a>
