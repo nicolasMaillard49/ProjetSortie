@@ -50,7 +50,7 @@ class ProfilController extends AbstractController
             }
         }
 
-        $user = $this->getUser();
+        $user = $this->participantsRepo->find($id);
         $modifyUserForm = $this->createForm(ModifyUserType::class, $user);
         $modifyUserForm->handleRequest($request);
         if($modifyUserForm->isSubmitted() && $modifyUserForm->isValid()){
@@ -63,7 +63,8 @@ class ProfilController extends AbstractController
         }
 
         return $this->render('/profil/modify_user.html.twig', [
-            'modifyUserForm' => $modifyUserForm->createView()
+            'modifyUserForm' => $modifyUserForm->createView(),
+            'participants' => $user
         ]);
     }
 
