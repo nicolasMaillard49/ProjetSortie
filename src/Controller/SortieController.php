@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Participants;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
+use App\Repository\ParticipantsRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
@@ -21,10 +23,16 @@ class SortieController extends AbstractController
 {
 
     private $sortierepo;
+    private $particirepo;
 
  function __construct(SortieRepository $sortierepo){
 
      $this->sortierepo = $sortierepo;
+ }
+
+ function __construct2(Participants $particirepo){
+
+     $this->particirepo = $particirepo;
  }
 
     /**
@@ -73,7 +81,7 @@ class SortieController extends AbstractController
    /**
      * @Route("/create", name="app_create")
      */
-    public function create(Request $request, EntityManagerInterface $em, EtatRepository $etarepo): Response
+    public function create(Request $request, EntityManagerInterface $em, EtatRepository $etarepo,ParticipantsRepository $partirepo): Response
     {
 
         $sortie  = new Sortie();
@@ -81,6 +89,9 @@ class SortieController extends AbstractController
         $formSortie = $this->createForm(SortieType::class, $sortie);
 
         $formSortie->handleRequest($request);
+
+
+
 
       if($formSortie->isSubmitted() && $formSortie->isValid()){
 
@@ -92,9 +103,19 @@ class SortieController extends AbstractController
 
           $sortie->setEtat($etat);
 
+          $organisateur = new Participants();
+
+          $id = $this->getUser();
+
+          $organisateur = $partirepo->find($id);
+
+          $sortie->setOrganisateur($organisateur);
 
           $em->persist($sortie);
           $em->flush();
+
+          $id = $sortie->getID();
+          return $this->redirectToRoute('app_detail_sortie',['id'=>$id]);
 
 
         }
