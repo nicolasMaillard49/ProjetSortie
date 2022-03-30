@@ -21,10 +21,11 @@
         <table class="table table-hover table-dark text-center no-padding">
             <thead>
             <tr>
-                <th scope="col">nom</th>
-                <th scope="col">debut</th>
-                <th scope="col">duree</th>
-                <th scope="col">date limite</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Début</th>
+                <th scope="col">Durée</th>
+                <th scope="col">Date limite</th>
+                <th scope="col">Organisateur</th>
                 <th scope="col">Description</th>
             </tr>
             </thead>
@@ -32,10 +33,11 @@
             {% for sortie in sorties %}
 
                 <tr>
-                    <td><a class="text-reset" href="{{ path('app_detail_sortie', { id:sortie.id }) }}">{{ sortie.nom }}</a></td>
+                    <td><a class="text-reset" href="{{ path('app_detail_sortie', { id:sortie.id }) }}">{{ sortie.nom|capitalize }}</a></td>
                     <td>{{sortie.dateHeureDebut|date(" d/m/Y H:i ")}}</td>
                     <td>{{ sortie.duree |date(" H:i ")}}</td>
                     <td>{{sortie.dateLimiteInscription|date(" d/m/Y H:i ")}} </td>
+                    <td>{{ sortie.organisateur.pseudo }}</td>
                     <td>{{ sortie.description|slice(0,80) }}...</td>
                 </tr>
 
