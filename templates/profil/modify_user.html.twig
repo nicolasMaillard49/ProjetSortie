@@ -4,9 +4,23 @@
 
 {% block body %}
 <div class="container">
-    <div class="row-cols-4 mt-4">
+    <div class="text-center">
+        <br>
+        <h1>Modifier les informations de {{ app.user.pseudo }}</h1>
+        <br>
+    </div>
+    <div class="row">
+<div class="col-4">
+
+</div>
+
+    <div class="col-4">
+
+        {{ form(modifyUserForm) }}
+    </div>
+    <div class="col-4">
 
     </div>
-    {{ form(modifyUserForm) }}
+</div>
 </div>
 {% endblock %}
