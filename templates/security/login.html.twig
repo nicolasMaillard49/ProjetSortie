@@ -28,11 +28,11 @@
 
                 <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
                 <label for="inputEmail">Email</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control my-3"
                        autocomplete="email" required autofocus>
                 <label for="inputPassword">Password</label>
                 <br>
-                <input type="password" name="password" id="inputPassword" class="form-control"
+                <input type="password" name="password" id="inputPassword" class="form-control my-3"
                        autocomplete="current-password" required>
                 <input type="hidden" name="_csrf_token"
                        value="{{ csrf_token('authenticate') }}"
@@ -41,7 +41,7 @@
 
 
 
-                <div class="checkbox mb-3">
+                <div class="checkbox mt-3">
                     <label>
                         <input type="checkbox" name="_remember_me"> Remember me
                     </label>
