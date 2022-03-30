@@ -29,7 +29,7 @@
     </div>
 
     <div class="col d-flex justify-content-center mt-3">
-        <button type="button" class="btn btn-secondary mx-3"><a href="{{ path('app_profil_modifier') }}">Modifier</a></button>
-        <button type="button" class="btn btn-secondary mx-3">Retour</button>
+        <a href="{{ path('app_profil_modifier') }}"><button type="button" class="btn btn-primary mx-3">Modifier</button></a>
+        <a href="{{ path('app_liste_sortie') }}"><button type="button" class="btn btn-primary mx-3">Retour</button></a>
     </div>
     {% endblock %}
