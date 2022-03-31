@@ -20,12 +20,6 @@ class ModifyUserType extends AbstractType
         $builder
             ->add('email',EmailType::class,[
                 'attr'=>["class"=>"border border-primary"]
-        ])
-            ->add('nom',TextType::class,[
-                'attr'=>["class"=>"border border-primary"]
-            ])
-            ->add('prenom', TextType::class,[
-                'attr'=>["class"=>"border border-primary"]
             ])
             ->add('tel', TelType::class,[
                 'attr'=>["class"=>"border border-primary"]

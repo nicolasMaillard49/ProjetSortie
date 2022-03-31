@@ -3,35 +3,35 @@
 {% block title %}Modifier{% endblock %}
 
 {% block body %}
-<div class="container">
+<div class="container rounded bg-white mt-5 mb-5">
     <div class="text-center">
-        <br>
         <h1>Modifier les informations de {{ participants.pseudo }}</h1>
-        <br>
     </div>
+
     <div class="row">
-<div class="col-4">
 
-</div>
+        <div class="col-md-3">
 
-    <div class="col-4 text-center">
+        </div>
+        <div class="col-md-6 border-right">
+            <div class="p-3 py-5">
+                <div class="row mt-2">
+                    <div class="col-md-6"><label class="labels">Nom</label><label class="form-control border border-primary my-2">{{ participants.nom }}</label></div>
+                    <div class="col-md-6"><label class="labels">Prenom</label><label class="form-control border border-primary my-2">{{ participants.prenom }}</label></div>
+                </div>
 
-        {{ form_start(modifyUserForm) }}
-        {{ form_row(modifyUserForm.email) }}
-        {{ form_row(modifyUserForm.nom) }}
-        {{ form_row(modifyUserForm.prenom) }}
-        {{ form_row(modifyUserForm.tel) }}
-        {{ form_row(modifyUserForm.pseudo) }}
+            {{ form_start(modifyUserForm) }}
+            {{ form_row(modifyUserForm.email) }}
+            {{ form_row(modifyUserForm.tel) }}
+            {{ form_row(modifyUserForm.pseudo) }}
+            <div class="mt-4 text-center">
+                {{ form_widget(modifyUserForm.Modifier) }}
+                <a href="{{ path('app_profil_id', {id:participants.id }) }} " ><button type="button" class="btn btn-primary mx-3">Retour</button></a>
+            </div>
 
-        <div class="mt-5 text-center">
-            {{ form_widget(modifyUserForm.Modifier) }}
-            <a href="{{ path('app_profil_id', {id:participants.id }) }} " ><button type="button" class="btn btn-primary mx-3">Retour</button></a>
+            {{ form_end(modifyUserForm) }}
+            </div>
         </div>
     </div>
-        {{ form_end(modifyUserForm) }}
-    <div class="col-4">
-
-    </div>
-</div>
 </div>
 {% endblock %}
