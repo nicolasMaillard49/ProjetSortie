@@ -66,14 +66,21 @@ class SortieController extends AbstractController
         }
 
         $filtre = $request->get('sites');
-                 dd($filtre);
 
 
           $site = new Site();
 
 
           $site = $siterpo->find($filtre);
+
+          dd($site);
+
+
+
+
         $sortie = $this->sortierepo->sortieFiltre($site);
+
+
 
         $sorties = new Sortie();
 
@@ -81,7 +88,7 @@ class SortieController extends AbstractController
 
 //verification si il y as une requete ajax
         if($request->get('ajax')){
-            return "ok";
+            return ok;
         }
 
 /*
@@ -106,7 +113,7 @@ class SortieController extends AbstractController
 
 
 
-     return $this->render('sortie/liste_sorties.html.twig',compact('site','sorties'));
+    // return $this->render('sortie/liste_sorties.html.twig',compact('site','sorties'));
     }
 
     /*/**
