@@ -16,8 +16,19 @@
 
     <div class="col-4 text-center">
 
-        {{ form(modifyUserForm) }}
+        {{ form_start(modifyUserForm) }}
+        {{ form_row(modifyUserForm.email) }}
+        {{ form_row(modifyUserForm.nom) }}
+        {{ form_row(modifyUserForm.prenom) }}
+        {{ form_row(modifyUserForm.tel) }}
+        {{ form_row(modifyUserForm.pseudo) }}
+
+        <div class="mt-5 text-center">
+            {{ form_widget(modifyUserForm.Modifier) }}
+            <a href="{{ path('app_profil_id', {id:participants.id }) }} " ><button type="button" class="btn btn-primary mx-3">Retour</button></a>
+        </div>
     </div>
+        {{ form_end(modifyUserForm) }}
     <div class="col-4">
 
     </div>
