@@ -55,108 +55,56 @@ class SortieController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/sortie_listage", name="app_liste_sortie")
      * @IsGranted("ROLE_USER")
      */
-    public function listage(Request $request,SiteRepository $siterpo): Response
+        public function liste(Request $request, SiteRepository $siteRepo, EtatRepository $etatRepo, SortieRepository $sortieRepo )
     {
+
         if( !$this->getUser()) {
             return $this->render('security/login.html.twig');
         }
+        //appel de la methode rechercheDetaillee dans SortieRepository afin de recupérer les sorties filtrées
 
-        $filtre = $request->get('sites');
+        $sortiesQuery = $sortieRepo->rechercheDetaillee(
+            ($request->query->get('recherche_terme') != null ? $request->query->get('recherche_terme') : null),
+            ($request->query->get('recherche_site') != null ? $request->query->get('recherche_site') : null),
+            ($request->query->get('recherche_etat') != null ? $request->query->get('recherche_etat') : null),
+            ($request->query->get('date_debut') != null ? $request->query->get('date_debut') : null),
+            ($request->query->get('date_fin') != null ? $request->query->get('date_fin') : null),
+            ($request->query->get('cb_organisateur') != null ? $request->query->get('cb_organisateur') : null),
+            ($request->query->get('cb_inscrit') != null ? $request->query->get('cb_inscrit') : null),
+            ($request->query->get('cb_non_inscrit') != null ? $request->query->get('cb_non_inscrit') : null),
+            ($request->query->get('cb_passee') != null ? $request->query->get('cb_passee') : null)
+        );
 
+       /* //limitation à 10 sorties par page
+        $sorties =  $sortiesQuery;
+             $paginator->paginate(
+            $sortiesQuery,
+            $request->query->getInt('page', 1),
+            10
+        );*/
 
-          $site = new Site();
+        //recuperation de tous les sites
+        $sites = $siteRepo->findAll();
+        //recuperation de tous les etats
+        $etats = $etatRepo->findAll();
 
-
-          $site = $siterpo->find($filtre);
-
-          dd($site);
-
-
-
-
-        $sortie = $this->sortierepo->sortieFiltre($site);
-
-
-
-        $sorties = new Sortie();
-
-        $sorties = $this->sortierepo->findAll();
-
-//verification si il y as une requete ajax
-        if($request->get('ajax')){
-            return ok;
-        }
-
-/*
-         $site = new Site();
-
-        $formSite = $this->createForm(FiltreType::class,$site);
-
-        $formSite->handleRequest($request);
-
-
-        if($formSite->isSubmitted()){
-            $site = new Site();
-
-            //$site = $siterepo->find($id);
-
-            $sortie = new Sortie();
-
-            $sortie = $this->sortierepo->sortieFiltre($site);
-        }
-*/
+       // $sorties = $sortieRepo->findAll();
 
 
 
 
-    // return $this->render('sortie/liste_sorties.html.twig',compact('site','sorties'));
-    }
-
-    /*/**
-     * @Route("/sortie_listage_filtre", name="app_liste_sortie_filtre")
-     * @IsGranted("ROLE_USER")
-     */
-   /* public function listageFIltre(SortieRepository $sortierepo,SiteRepository $siterepo,Request $request): Response
-    {
-        if( !$this->getUser()) {
-            return $this->render('security/login.html.twig');
-        }
-
-        /*Formulaire de filre de site
-         *
-        $site = new Site();
-
-        $formSite = $this->createForm(FiltreType::class);
-
-        $formSite->handleRequest($request);
-
-
-       if($formSite->isSubmitted()){
-           $site = new Site();
-
-           //$site = $siterepo->find($id);
-
-           $sortie = new Sortie();
-
-           $sortie = $this->sortierepo->sortieFiltre($site);
-
-           dd($site,$sortie);
-       }
-
-        $sortie = new Sortie();
-
-        $sortie = $this->sortierepo->findAll();
-
-
-     return $this->render('sortie/liste_sorties.html.twig',[
-         'formSite'=>$formSite->createView(),
-          'sorties'=>$sortie,
+        //délégation du travail au twig liste.html.twig en y passant en parametre les sorties filtrées, les sites et les etats
+        return $this->render("sortie/liste_sorties.html.twig", [
+            'sorties' => $sortiesQuery,
+            'sites' => $sites,
+            'etats' => $etats
         ]);
-    }*/
+    }
 
 
     /**

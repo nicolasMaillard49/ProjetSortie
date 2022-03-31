@@ -6,19 +6,61 @@
 
 {% block body %}
     <div class="container-fluid">
-        <div class="row">
-            <div class="col2">
-                <form id="filter">
-                    {% for sites in site %}
-                    <input type ="checkbox" name="sites[]" id="site{{ sites.id }}" value="{{ sites.id }}">
-                           <label for="{{ sites.id }}">
-                               {{ sites.nom }}
-                           </label>
-                        {% endfor %}
-                </form>
-            </div>
-        </div>
+        <h3>Filtrer les sorties</h3>
+        <form action="{{ path('app_liste_sortie') }}" method="get" class="row">
+            <div class="col-sm-6">
+                <input type="text" class="form-control mb-3" placeholder="Rechercher une sortie par mot-clé" name="recherche_terme" id="recherche_terme" value="{{ app.request.get('recherche_terme') }}">
+                <select class="custom-select mb-3" name="recherche_site" aria-label="Example select with button addon">
+                    <option selected>Choisir un site</option>
+                    {% for site in sites %}
+                        <option value="{{ site.id }}" {{ (site.id in app.request.get('recherche_site')) ? 'selected' : '' }}>{{ site.nom }}</option>
+                    {% endfor %}
+                </select>
 
+                <select class="custom-select mb-3" name="recherche_etat" aria-label="Example select with button addon">
+                    <option selected>Choisir le statut</option>
+                    {% for etat in etats %}
+                        <option value="{{ etat.id }}" {{ (etat.id in app.request.get('recherche_etat')) ? 'selected' : '' }}>{{ etat.libelle }}</option>
+                    {% endfor %}
+                </select>
+
+                <div class="mb-3">
+                    <label for="debut">Date de début</label>
+                    <input class="rounded form-control" type="date" id="debut" name="date_debut" value="{{ app.request.get('date_debut') }}">
+                    <label for="fin">Date de fin</label>
+                    <input class="rounded form-control" type="date" id="fin" name="date_fin" value="{{ app.request.get('date_fin') }}">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="row d-flex flex-column ml-1 col-xs-12 d-inline">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="cb_organisateur" value="{{ app.user.id }}" {% if app.request.get('cb_organisateur') %} checked {% endif %}>
+                        <label class="form-check-label">Sorties dont je suis l'organisateur.trice</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="cb_inscrit" value="{{ app.user.id }}" {% if app.request.get('cb_inscrit') %} checked {% endif %}>
+                        <label class="form-check-label" >Sorties auxquelles je suis inscrit.e</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="cb_non_inscrit" value="{{ app.user.id }}" {% if app.request.get('cb_non_inscrit') %} checked {% endif %}>
+                        <label class="form-check-label" >Sorties auxquelles je ne suis pas inscrit.e</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="cb_passee" {% if app.request.get('cb_passee') %} checked {% endif %}>
+                        <label class="form-check-label" >Sorties passées</label>
+                    </div>
+                </div>
+
+                <div class="row d-flex text-center ">
+                    <div class="col">
+                        <input type="submit" class="btn btn-primary mr-1 mt-5 mb-2" value="Rechercher" id="btnRechercher" name="btnRechercher">
+                        <a href="{{ path('app_liste_sortie') }}" class="btn btn-primary ml-1 mt-5 mb-2">Réinitialiser</a>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        </div>
 
         <br>
         <div class="row text-center">
@@ -44,7 +86,7 @@
             </thead>
             <tbody>
             {% for sortie in sorties %}
-
+                {% if sortie != null %}
                 <tr>
                     <td><a class="text-reset"
                            href="{{ path('app_detail_sortie', { id:sortie.id }) }}">{{ sortie.nom|capitalize }}</a></td>
@@ -57,12 +99,17 @@
                     <td>{{ sortie.description|slice(0,80) }}...</td>
                 </tr>
 
-            {% endfor %}
+           {% endif %}
+            {% else %}
+            <td>aucune sortie</td>
+            <td>aucune sortie</td>
+            <td>aucune sortie</td>
+            <td>aucune sortie</td>
+            <td>aucune sortie</td>
+            <td>aucune sortie</td>
+            </tr>
             </tbody>
+            {% endfor %}
         </table>
-    </div>
 {% endblock %}
 
-{% block javascriptsBody %}
-    <script src="{{ asset('js/filtres.js') }}"></script>
-{% endblock %}
