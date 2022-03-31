@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Form\ChangePassword;
+use App\Form\ChangePasswordType;
 use App\Form\ModifyUserType;
 use App\Repository\ParticipantsRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -68,7 +70,23 @@ class ProfilController extends AbstractController
         ]);
     }
 
+    public function changePasswdAction(Request $request)
+    {
+        $changePasswordModel = new ChangePassword();
+        $form = $this->createForm(new ChangePasswordType(), $changePasswordModel);
 
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //perform some action,
+            //such as encoding with MessageDigestPasswordEncoder and persist
+            return $this->redirect($this->generateUrl('change_passwd_success'));
+        }
+
+        return $this->render('AcmeUserBundle:Demo:changePasswd.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
 
 
 
