@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
+    <div class="container-fluid p-0 m-0">
         <h3>Filtrer les sorties</h3>
         <form action="{{ path('app_liste_sortie') }}" method="get" class="row">
             <div class="col-sm-6">
@@ -73,7 +73,7 @@
         {% endfor %} #}
         <br>
         <br>
-        <table class="table table-hover table-dark text-center no-padding">
+        <table class="table table-hover table-dark text-center no-padding table-striped p-0">
             <thead>
             <tr>
                 <th scope="col">Nom</th>
