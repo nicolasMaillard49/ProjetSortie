@@ -37,14 +37,20 @@ class ProfilController extends AbstractController
     }
 
     /**
-     * @Route("/modifier", name="modifier")
+     * @Route("/modifier/{id<\d+>}", name="modifier_id")
      */
-    public function modifier(Request $request, EntityManagerInterface $em): Response
+    public function modifier(Request $request, EntityManagerInterface $em, $id): Response
     {
         if(!$this->getUser()){
             return $this->redirectToRoute('app_login');
         }
-        $user = $this->getUser();
+        if($this->getUser()->getId()!=$id){
+            if(!$this->isGranted('ROLE_ADMIN')){
+                return $this->redirectToRoute('app_liste_sortie');
+            }
+        }
+
+        $user = $this->participantsRepo->find($id);
         $modifyUserForm = $this->createForm(ModifyUserType::class, $user);
         $modifyUserForm->handleRequest($request);
         if($modifyUserForm->isSubmitted() && $modifyUserForm->isValid()){
@@ -57,7 +63,8 @@ class ProfilController extends AbstractController
         }
 
         return $this->render('/profil/modify_user.html.twig', [
-            'modifyUserForm' => $modifyUserForm->createView()
+            'modifyUserForm' => $modifyUserForm->createView(),
+            'participants' => $user
         ]);
     }
 

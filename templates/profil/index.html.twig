@@ -3,7 +3,7 @@
 {% block title %}Profil de {{ participants.pseudo }}{% endblock %}
 
 {% block body %}
-
+<!--
     <div class="col d-flex justify-content-center mt-5">
         <div class="card" style="width: 15rem;">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgAJ2AL2BUJeYp3pvkvvWUg0bP1EkoyVqjog&usqp=CAU" class="card-img-top" alt="Photo de profil">
@@ -29,7 +29,42 @@
     </div>
 
     <div class="col d-flex justify-content-center mt-3">
-        <a href="{{ path('app_profil_modifier') }}"><button type="button" class="btn btn-primary mx-3">Modifier</button></a>
+        <a href="{{ path('app_profil_modifier_id', {id:app.user.id}) }}"><button type="button" class="btn btn-primary mx-3">Modifier</button></a>
         <a href="{{ path('app_liste_sortie') }}"><button type="button" class="btn btn-primary mx-3">Retour</button></a>
     </div>
+
+-->
+    <div class="container rounded bg-white mt-5 mb-5">
+        <div class="row">
+            <div class="col-md-3 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgAJ2AL2BUJeYp3pvkvvWUg0bP1EkoyVqjog&usqp=CAU" class="rounded-circle mt-5" alt="Photo de profil"></div>
+            </div>
+            <div class="col-md-6 border-right">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Profil de {{ participants.pseudo }}</h4>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6"><label class="labels">Nom</label><label class="form-control">{{ participants.nom }}</label></div>
+                        <div class="col-md-6"><label class="labels">Prenom</label><label class="form-control">{{ participants.prenom }}</label></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12 mt-3"><label class="labels">Numéro de téléphone</label><label class="form-control">{{ participants.tel }}</label></div>
+                        <div class="col-md-12 mt-3"><label class="labels">Adresse email</label><label class="form-control">{{ participants.email }}</label></div>
+                        <div class="col-md-12 mt-3"><label class="labels">Ville de rattachement</label><label class="form-control">{{ participants.site }}</label></div>
+                        </div>
+                    <div class="mt-5 text-center">
+                        {% if (is_granted('ROLE_ADMIN')) or (app.user.id==participants.id) %}
+                        <a href="{{ path('app_profil_modifier_id', {id:participants.id}) }}"><button type="button" class="btn btn-primary mx-3">Modifier</button></a>
+                        {% endif %}
+                        <a href="{{ path('app_liste_sortie') }}"><button type="button" class="btn btn-primary mx-3">Retour</button></a>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+
+
     {% endblock %}
