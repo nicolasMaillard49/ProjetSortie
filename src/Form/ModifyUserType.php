@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Participants;
+use App\Entity\Site;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -12,12 +14,19 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Regex;
 
 class ModifyUserType extends AbstractType
 {
+    protected $auth;
+
+    public function __construct(AuthorizationCheckerInterface $auth) {
+        $this->auth = $auth;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -45,8 +54,18 @@ class ModifyUserType extends AbstractType
                     new Regex("/^[a-z\-0-9]+$/i", "Le pseudo ne doit contenir que des caractères alphanumériques.")
                 ]
             ])
+
             ->add('Modifier', SubmitType::class)
         ;
+        if($this->auth->isGranted('ROLE_ADMIN')){
+            $builder->add('site', EntityType::class, [
+                'class' => Site::class,
+                'choice_label' => 'nom',
+                'expanded'=> false,
+                'multiple'=>false,
+                'attr' => ['class' => 'border border-primary'],
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -15,6 +15,9 @@
         </div>
         <div class="col-md-6 border-right">
             <div class="p-3 py-5">
+                {% if (is_granted('ROLE_ADMIN')) %}
+                    <h2 class="text-center">MODE ADMIN</h2>
+                {% endif %}
                 <div class="row mt-2">
 
                     <div class="col-md-6">
@@ -33,7 +36,9 @@
             {{ form_row(modifyUserForm.pseudo) }}
             {{ form_row(modifyUserForm.email) }}
             {{ form_row(modifyUserForm.tel) }}
-
+                {% if (is_granted('ROLE_ADMIN')) %}
+                    {{ form_row(modifyUserForm.site) }}
+                {% endif %}
             <div class="mt-4 text-center">
                 {{ form_widget(modifyUserForm.Modifier) }}
                 <a href="{{ path('app_profil_id', {id:participants.id }) }} " ><button type="button" class="btn btn-primary mx-3">Retour</button></a>
