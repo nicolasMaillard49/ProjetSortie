@@ -6,9 +6,13 @@ use App\Entity\Participants;
 use App\Entity\Site;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -21,20 +25,34 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
-            ->add('nom')
-            ->add('prenom')
-            ->add('pseudo')
-            ->add('tel')
-            ->add('site')
+            ->add('email', EmailType::class,[
+                'attr'=>["class"=>"border border-primary"]
+            ])
+            ->add('nom', TextType::class,[
+                'attr'=>["class"=>"border border-primary"]
+            ])
+            ->add('prenom', TextType::class,[
+                'attr'=>["class"=>"border border-primary"]
+            ])
+            ->add('pseudo', TextType::class,[
+                'attr'=>["class"=>"border border-primary"]
+            ])
+            ->add('tel', TelType::class,[
+                'attr'=>["class"=>"border border-primary"]
+            ])
+            ->add('site', EntityType::class,[
+                'class'=>Site::class,'choice_label'=>'nom',
+                'attr'=>["class"=>"border border-primary"]
+                ])
+
             //->add('actif')
            // ->add('organisateur')
 
-            ->add('plainPassword', PasswordType::class, [
+            ->add('plainPassword', PasswordType::class,[
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'attr' => ['autocomplete' => 'new-password', "class"=>"border border-primary"],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
@@ -74,7 +92,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('SignIn',SubmitType::class)
+            ->add('Valider',SubmitType::class)
         ;
 
     }
