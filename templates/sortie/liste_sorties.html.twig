@@ -1,21 +1,34 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-   Liste des sorties
+    Liste des sorties
 {% endblock %}
 
 {% block body %}
     <div class="container-fluid">
+        <div class="row">
+            <div class="col2">
+                <form id="filter">
+                    {% for sites in site %}
+                    <input type ="checkbox" name="sites[]" id="site{{ sites.id }}" value="{{ sites.id }}">
+                           <label for="{{ sites.id }}">
+                               {{ sites.nom }}
+                           </label>
+                        {% endfor %}
+                </form>
+            </div>
+        </div>
+
 
         <br>
         <div class="row text-center">
             <h1>Liste des sorties</h1>
         </div>
-        {#{% for message in app.flashes('succes') %}
+        {# {% for message in app.flashes('succes') %}
             <div class="alert alert-success text-center">
                 {{ message }}
             </div>
-        {% endfor %}#}
+        {% endfor %} #}
         <br>
         <br>
         <table class="table table-hover table-dark text-center no-padding">
@@ -33,11 +46,14 @@
             {% for sortie in sorties %}
 
                 <tr>
-                    <td><a class="text-reset" href="{{ path('app_detail_sortie', { id:sortie.id }) }}">{{ sortie.nom|capitalize }}</a></td>
-                    <td>{{sortie.dateHeureDebut|date(" d/m/Y H:i ")}}</td>
-                    <td>{{ sortie.duree |date(" H:i ")}}</td>
-                    <td>{{sortie.dateLimiteInscription|date(" d/m/Y H:i ")}} </td>
-                    <td><a class="text-reset" href="{{  path('app_profil_id', { id:sortie.organisateur.id }) }} ">{{ sortie.organisateur.pseudo }}</td>
+                    <td><a class="text-reset"
+                           href="{{ path('app_detail_sortie', { id:sortie.id }) }}">{{ sortie.nom|capitalize }}</a></td>
+                    <td>{{ sortie.dateHeureDebut|date(" d/m/Y H:i ") }}</td>
+                    <td>{{ sortie.duree |date(" H:i ") }}</td>
+                    <td>{{ sortie.dateLimiteInscription|date(" d/m/Y H:i ") }} </td>
+                    <td><a class="text-reset"
+                           href="{{ path('app_profil_id', { id:sortie.organisateur.id }) }} ">{{ sortie.organisateur.pseudo }}
+                    </td>
                     <td>{{ sortie.description|slice(0,80) }}...</td>
                 </tr>
 
@@ -45,4 +61,8 @@
             </tbody>
         </table>
     </div>
+{% endblock %}
+
+{% block javascriptsBody %}
+    <script src="{{ asset('js/filtres.js') }}"></script>
 {% endblock %}
