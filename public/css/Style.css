@@ -1,4 +1,4 @@
-.no-padding{
-    padding-right:0;
-    padding-left:0;
+html{
+    overflow-x: hidden;
+    height: 100%;
 }

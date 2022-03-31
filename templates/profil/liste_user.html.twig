@@ -3,6 +3,16 @@
 {% block title %}Modifier{% endblock %}
 
 {% block body %}
+
+
+
+
+
+    <div class="container-fluid p-0">
+<div class="row">
+    <h1 class="text-center my-5">Listes des Participants</h1>
+</div>
+
     <form action="{{ url('app_profil_supprimer') }}" method="post">
         <input type="hidden" id="delete_profil_supp" name="token" value="{{ csrf_token('delete-item') }}"/>
     </form>
@@ -11,7 +21,7 @@
             <div class="table-title">
 
             </div>
-            <table class="table table-striped table-hover">
+            <table class="table table-hover table-dark text-center no-padding table-striped">
                 <thead>
                 <tr>
                     <th>Nom</th>
@@ -46,6 +56,7 @@
                 </tbody>
             </table>
         </div>
+    </div>
     </div>
 {% endblock %}
 
