@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("profil", name="app_profil_")
+ * @Route("/profil", name="app_profil_")
  */
 class ProfilController extends AbstractController
 {
@@ -68,12 +68,35 @@ class ProfilController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/liste_user", name="liste")
+     */
+    public function liste(Request $request): Response
+    {
+        if(!$this->isGranted('ROLE_ADMIN')){
+            return $this->redirectToRoute('app_liste_sortie');
+        }
+        $participants = $this->participantsRepo->findAll();
+        return $this->render('/profil/liste_user.html.twig', compact('participants'));
+    }
 
+    /**
+     * @Route("/supprimer", name="supprimer")
+     */
+    public function supprimer(Request $request): Response
+    {
+        if(!$this->isGranted('ROLE_ADMIN')){
+            return $this->redirectToRoute('app_liste_sortie');
+        }
+        $submittedToken = $request->request->get("token");
 
+        if($this->isCsrfTokenValid('delete-item', $submittedToken)){
+            $participant = $this->participantsRepo->find($request->request->get("id"));
+            $this->participantsRepo->remove($participant);
+        }
 
-
-
-
+        return $this->json($this->isCsrfTokenValid('delete-item', $submittedToken));
+    }
 
 
 
