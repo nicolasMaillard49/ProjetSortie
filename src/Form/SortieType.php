@@ -26,12 +26,15 @@ class SortieType extends AbstractType
                 'attr'=>["class"=>"border border-primary"]
             ])
             ->add('dateHeureDebut', DateTimeType::class,[
-                'attr'=>["class"=>"border border-primary"]
+                "widget"=>"single_text",
+                'attr'=>["class"=>"border border-primary",
+                        ]
             ])
             ->add('duree', TimeType::class,[
                 'attr'=>["class"=>"border border-primary"]
             ])
             ->add('dateLimiteInscription', DateTimeType::class,[
+                "widget"=>"single_text",
                 'attr'=>["class"=>"border border-primary"]
             ])
             ->add('inscriptionMax', IntegerType::class,[
