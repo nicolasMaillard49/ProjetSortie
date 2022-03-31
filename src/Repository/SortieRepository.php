@@ -101,7 +101,7 @@ class SortieRepository extends ServiceEntityRepository
      * @return \Doctrine\ORM\Query
      * @throws \Exception
      */
-    public function rechercheDetaillee($recherche_term = null, $siteId = null,$etat = null, $date_debut = null, $date_fin = null, $organisateur = null, $inscrit = null, $non_inscrit = null, $passee = null): \Doctrine\ORM\Query
+    public function rechercheDetaillee($recherche_term = null, $siteId = null, $etat = null, $date_debut = null,  $date_fin = null, $organisateur = null,   $inscrit = null,  $non_inscrit = null, $passee = null)
     {
         $qb = $this->createQueryBuilder('sortie')
             ->join('sortie.site', 'site')
@@ -113,45 +113,52 @@ class SortieRepository extends ServiceEntityRepository
 
         if($recherche_term != null){
             $qb->andWhere('sortie.nom LIKE :recherche_term')
-                ->setParameter('recherche_term', '%'.$recherche_term.'%');
+                ->setParameter('recherche_term', '%'.$recherche_term.'%')
+            ->getQuery();
         }
         if($siteId > 0){
             $qb->andWhere('site.id = :siteId')
-                ->setParameter('siteId', $siteId);
+                ->setParameter('siteId', $siteId)
+            ->getQuery();
         }
         if($etat > 0){
             $qb->andWhere('etat.id = :etat')
-                ->setParameter('etat', $etat);
+                ->setParameter('etat', $etat)
+            ->getQuery();
         }
         if($date_debut != null){
             $qb->andWhere('sortie.dateHeureDebut > :date_debut')
-                ->setParameter('date_debut', new \DateTime($date_debut));
+                ->setParameter('date_debut', new \DateTime($date_debut))
+            ->getQuery();
         }
         if($date_fin != null){
             $qb->andWhere('sortie.dateHeureDebut < :date_fin')
-                ->setParameter('date_fin', new \DateTime($date_fin));
+                ->setParameter('date_fin', new \DateTime($date_fin))
+            ->getQuery();
         }
         if($organisateur != null){
             $organisateur = $user = $this->getEntityManager()->getRepository(Participants::class)->find($organisateur);
             $qb->andWhere('sortie.organisateur = :organisateur')
-                ->setParameter('organisateur', $organisateur);
+                ->setParameter('organisateur', $organisateur)
+            ->getQuery();
         }
         if($inscrit != null){
             $user = $this->getEntityManager()->getRepository(Participants::class)->find($inscrit);
             $qb->andWhere(':inscrit MEMBER OF sortie.participants')
-                ->setParameter('inscrit', $user);
+                ->setParameter('inscrit', $user)
+            ->getQuery();
         }
         if($non_inscrit != null){
             $user = $this->getEntityManager()->getRepository(Participants::class)->find($non_inscrit);
             $qb->andWhere(':inscrit NOT MEMBER OF sortie.participants')
-                ->setParameter('inscrit', $user);
+                ->setParameter('inscrit', $user)
+            ->getQuery();
         }
         if($passee != null){
             $qb->andWhere('etat.libelle = :etat')
-                ->setParameter('etat', 'Passée');
-        }
-
-        return $qb
+                ->setParameter('etat', 'Passée')
             ->getQuery();
+        }
+        return $qb->getQuery()->getResult();
     }
 }

@@ -15,6 +15,7 @@ use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -59,6 +60,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/sortie_listage", name="app_liste_sortie")
      * @IsGranted("ROLE_USER")
+     * @throws Exception
      */
         public function liste(Request $request, SiteRepository $siteRepo, EtatRepository $etatRepo, SortieRepository $sortieRepo )
     {
@@ -95,12 +97,28 @@ class SortieController extends AbstractController
 
        // $sorties = $sortieRepo->findAll();
 
+       /* if($sortiesQuery == null){
+            $sorties = new Sortie();
+            $sorties = $sortieRepo->findAll();
+            $sortie = $sortiesQuery;
+            dd($sorties,$sites,$etats,$sortie);
+        }else{
+            $sorties = new Sortie($sortiesQuery);
+            dd($sorties,$sites,$etats);
+        }*/
+
+        $sorties = $sortiesQuery;
+
+
+
+/*$sorties = $sortiesQuery;*/
+
 
 
 
         //délégation du travail au twig liste.html.twig en y passant en parametre les sorties filtrées, les sites et les etats
         return $this->render("sortie/liste_sorties.html.twig", [
-            'sorties' => $sortiesQuery,
+            'sorties' => $sorties,
             'sites' => $sites,
             'etats' => $etats
         ]);
