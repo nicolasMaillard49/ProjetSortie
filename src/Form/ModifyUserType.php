@@ -12,6 +12,9 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class ModifyUserType extends AbstractType
 {
@@ -19,13 +22,28 @@ class ModifyUserType extends AbstractType
     {
         $builder
             ->add('email',EmailType::class,[
-                'attr'=>["class"=>"border border-primary"]
+                'attr'=>["class"=>"border border-primary"],
+                'constraints' => [
+                    new NotBlank(),
+                    new NotNull(),
+                    new Regex("/^([a-zA-Z]+)(@)([a-zA-Z]+)(\.)([a-zA-Z]+)$/i", "L'adresse mail doit contenir un '@' et un '.' et ne peut pas contenir de caractères alphanumériques.")
+                ]
             ])
             ->add('tel', TelType::class,[
-                'attr'=>["class"=>"border border-primary"]
+                'attr'=>["class"=>"border border-primary"],
+                'constraints' => [
+                    new NotBlank(),
+                    new NotNull(),
+                    new Regex("/^(0|\+33)[1-9]( *[0-9]{2}){4}+$/i", "Le numéro de téléphone doit contenir 10 chiffres.")
+                ]
             ])
             ->add('pseudo', TextType::class,[
-                'attr'=>["class"=>"border border-primary"]
+                'attr'=>["class"=>"border border-primary"],
+                'constraints' => [
+                    new NotBlank(),
+                    new NotNull(),
+                    new Regex("/^[a-z\-0-9]+$/i", "Le pseudo ne doit contenir que des caractères alphanumériques.")
+                ]
             ])
             ->add('Modifier', SubmitType::class)
         ;
