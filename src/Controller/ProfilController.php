@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Form\ModifyUserType;
 use App\Repository\ParticipantsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Message;
+use mysql_xdevapi\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/profil", name="app_profil_")
@@ -99,5 +102,44 @@ class ProfilController extends AbstractController
     }
 
 
+    /**
+     * @Route("/modify_password", name="modify_password")
+     */
+
+    public function change_user_password(Request $request, UserPasswordEncoderInterface $encoder,EntityManagerInterface $em): Response
+    {
+            if(!$this->getUser()){
+                return $this->redirectToRoute('app_liste_sortie');
+            }
+            if( $request->get('old_password') != null && $new_pwd = $request->get('new_password') &&   $new_pwd_confirm = $request->get('new_password_confirm')){
+                $old_pwd = $request->get('old_password');
+                $new_pwd = $request->get('new_password');
+                $new_pwd_confirm = $request->get('new_password_confirm');
+
+                $user = $this->getUser();
+
+                $id = $user->getId();
+
+                $participant =  $this->participantsRepo->find($id);
+                $checkPass = $encoder->isPasswordValid($user, $old_pwd);
+
+                if($checkPass === true) {
+                    $new_pwd_encoded = $encoder->encodePassword($participant, $new_pwd_confirm);
+
+                   $participant->setPassword($new_pwd_encoded);
+                    $em->persist($participant);
+                    $em->flush();
+
+
+                    $this->addFlash('success', 'Mot de passe Modifier avec succes,(Brandon va te fairt Enlek)');
+                    return $this->redirectToRoute('app_logout');
+
+                } else {
+                    return new jsonresponse(array('error' => 'The current password is incorrect.'));
+                }
+}
+
+            return $this->render('/profil/change_password.html.twig');
+        }
 
 }

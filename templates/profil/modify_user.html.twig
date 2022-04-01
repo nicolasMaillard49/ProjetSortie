@@ -3,50 +3,63 @@
 {% block title %}Modifier{% endblock %}
 
 {% block body %}
-<div class="container rounded bg-white mt-5 mb-5">
-    <div class="text-center">
-        <h1>Modifier les informations de {{ participants.pseudo }}</h1>
-    </div>
-
-    <div class="row">
-
-        <div class="col-md-3">
-
+    <div class="container rounded bg-white mt-5 mb-5">
+        <div class="text-center">
+            <h1>Modifier les informations de {{ participants.pseudo }}</h1>
         </div>
-        <div class="col-md-6 border-right">
-            <div class="p-3 py-5">
-                {% if (is_granted('ROLE_ADMIN')) %}
-                    <h2 class="text-center">MODE ADMIN</h2>
-                {% endif %}
-                <div class="row mt-2">
 
-                    <div class="col-md-6">
-                        <label class="labels">Nom</label>
-                        <input disabled class="form-control border border-primary my-2" value="{{ participants.nom }}">
+        <div class="row">
+
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-6 border-right">
+                <div class="p-3 py-5">
+                    {% if (is_granted('ROLE_ADMIN')) %}
+                        <h2 class="text-center">MODE ADMIN</h2>
+                    {% endif %}
+                    <div class="row mt-2">
+
+                        <div class="col-md-6">
+                            <label class="labels">Nom</label>
+                            <input disabled class="form-control border border-primary my-2"
+                                   value="{{ participants.nom }}">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="labels">Prenom</label>
+                            <input disabled class="form-control border border-primary my-2"
+                                   value="{{ participants.prenom }}">
+                        </div>
+
                     </div>
 
-                    <div class="col-md-6">
-                        <label class="labels">Prenom</label>
-                        <input disabled class="form-control border border-primary my-2" value="{{ participants.prenom }}">
+                    {{ form_start(modifyUserForm) }}
+                    {{ form_row(modifyUserForm.pseudo) }}
+                    {{ form_row(modifyUserForm.email) }}
+                    {{ form_row(modifyUserForm.tel) }}
+                    {% if (is_granted('ROLE_ADMIN')) %}
+                        {{ form_row(modifyUserForm.site) }}
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-6 mt-4 text-center">
+                            {{ form_widget(modifyUserForm.Valider) }}
+                            <a href="{{ path('app_profil_id', {id:participants.id }) }} ">
+                                <button type="button" class="btn btn-primary mx-3">Retour</button>
+                            </a>
+                        </div>
+                        <div class="col-6 mt-4 text-center">
+                            <a href="{{ path('app_profil_modify_password')}}">
+                                <button type="button" class="btn btn-danger mx-3">Modifier le Mot de passe</button>
+                            </a>
+                        </div>
+
                     </div>
+
+                    {{ form_end(modifyUserForm) }}
 
                 </div>
-
-            {{ form_start(modifyUserForm) }}
-            {{ form_row(modifyUserForm.pseudo) }}
-            {{ form_row(modifyUserForm.email) }}
-            {{ form_row(modifyUserForm.tel) }}
-                {% if (is_granted('ROLE_ADMIN')) %}
-                    {{ form_row(modifyUserForm.site) }}
-                {% endif %}
-            <div class="mt-4 text-center">
-                {{ form_widget(modifyUserForm.Modifier) }}
-                <a href="{{ path('app_profil_id', {id:participants.id }) }} " ><button type="button" class="btn btn-primary mx-3">Retour</button></a>
-            </div>
-
-            {{ form_end(modifyUserForm) }}
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

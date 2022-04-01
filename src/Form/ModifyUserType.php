@@ -55,7 +55,7 @@ class ModifyUserType extends AbstractType
                 ]
             ])
 
-            ->add('Modifier', SubmitType::class)
+            ->add('Valider', SubmitType::class)
         ;
         if($this->auth->isGranted('ROLE_ADMIN')){
             $builder->add('site', EntityType::class, [
