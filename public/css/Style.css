@@ -9,6 +9,12 @@ html{
     overflow: auto;
 }
 
+.my-custom-scrollbar2{
+    position:relative;
+    height: 30em;
+    overflow: auto;
+}
+
 .table-wrapper-scroll-y{
     display: block;
 }
@@ -17,4 +23,23 @@ html{
     display: flex;
     align-items: flex-end;
     justify-content: center;
+}
+
+.bi-trash{
+    height: 25px;
+    width: 25px;
+}
+
+.bi-pencil{
+    height: 25px;
+    width: 25px;
+}
+
+.bi-trash:hover{
+    color:red;
+    cursor:pointer;
+}
+
+.bi-pencil:hover{
+    color:lightgreen;
 }
