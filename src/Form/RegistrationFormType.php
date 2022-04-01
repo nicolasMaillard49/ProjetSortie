@@ -30,7 +30,7 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                     new NotNull(),
-                    new Regex("/^([a-zA-Z]+)(@)([a-zA-Z]+)(\.)([a-zA-Z]+)$/i", "L'adresse mail doit contenir un '@' et un '.' et ne peut pas contenir de caractères alphanumériques.")
+                    new Regex("/^([a-zA-Z\-0-9]+)(@)([a-zA-Z\-0-9]+)(\.)([a-zA-Z\-0-9]+)$/i", "L'adresse mail doit contenir un '@' et un '.' et ne peut pas contenir de caractères alphanumériques.")
                 ]
             ])
             ->add('nom', TextType::class,[
