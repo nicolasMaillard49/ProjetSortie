@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container-fluid p-0 m-0">
+    <div class="container-fluid mx-5 mt-4">
         <h3>Filtrer les sorties</h3>
         <form action="{{ path('app_liste_sortie') }}" method="get" class="row">
             <div class="col-sm-6">
@@ -24,11 +24,15 @@
                     {% endfor %}
                 </select>
 
-                <div class="mb-3">
+                <div class="mb-3 row">
+                    <div class="col-5">
                     <label for="debut">Date de début</label>
                     <input class="rounded form-control" type="date" id="debut" name="date_debut" value="{{ app.request.get('date_debut') }}">
+                    </div>
+                    <div class="col-6">
                     <label for="fin">Date de fin</label>
                     <input class="rounded form-control" type="date" id="fin" name="date_fin" value="{{ app.request.get('date_fin') }}">
+                    </div>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-6">
@@ -51,10 +55,13 @@
                     </div>
                 </div>
 
-                <div class="row d-flex text-center ">
-                    <div class="col">
-                        <input type="submit" class="btn btn-primary mr-1 mt-5 mb-2" value="Rechercher" id="btnRechercher" name="btnRechercher">
-                        <a href="{{ path('app_liste_sortie') }}" class="btn btn-primary ml-1 mt-5 mb-2">Réinitialiser</a>
+                <div class="row d-flex text-center">
+                    <div class="col-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                        </svg>
+                        <input type="submit" class="btn btn-primary mr-1 mt-3 mb-2" value="Rechercher" id="btnRechercher" name="btnRechercher">
+                        <a href="{{ path('app_liste_sortie') }}" class="btn btn-primary ml-1 mt-3 mb-2">Réinitialiser</a>
                     </div>
                 </div>
 
@@ -62,26 +69,21 @@
         </form>
         </div>
 
-        <br>
-        <div class="row text-center">
-            <h1>Liste des sorties</h1>
-        </div>
+
         {# {% for message in app.flashes('succes') %}
             <div class="alert alert-success text-center">
                 {{ message }}
             </div>
         {% endfor %} #}
-        <br>
-        <br>
-        <table class="table table-hover table-dark text-center no-padding table-striped p-0">
-            <thead>
+       <div class="table-wrapper-scroll-y my-custom-scrollbar mt-3 mx-5 rounded">
+        <table class="table table-hover table-dark text-center no-padding table-striped table-lg">
+            <thead style="position: sticky; top:0" class="h-25">
             <tr>
                 <th scope="col">Nom</th>
                 <th scope="col">Début</th>
-                <th scope="col">Durée</th>
                 <th scope="col">Date limite</th>
+                <th scope="col">Etat</th>
                 <th scope="col">Organisateur</th>
-                <th scope="col">Description</th>
             </tr>
             </thead>
             <tbody>
@@ -91,12 +93,11 @@
                     <td><a class="text-reset"
                            href="{{ path('app_detail_sortie', { id:sortie.id }) }}">{{ sortie.nom|capitalize }}</a></td>
                     <td>{{ sortie.dateHeureDebut|date(" d/m/Y H:i ") }}</td>
-                    <td>{{ sortie.duree |date(" H:i ") }}</td>
                     <td>{{ sortie.dateLimiteInscription|date(" d/m/Y H:i ") }} </td>
+                    <td>{{ sortie.etat.libelle }}</td>
                     <td><a class="text-reset"
                            href="{{ path('app_profil_id', { id:sortie.organisateur.id }) }} ">{{ sortie.organisateur.pseudo }}
                     </td>
-                    <td>{{ sortie.description|slice(0,80) }}...</td>
                 </tr>
 
            {% endif %}
@@ -106,10 +107,14 @@
             <td>aucune sortie</td>
             <td>aucune sortie</td>
             <td>aucune sortie</td>
-            <td>aucune sortie</td>
             </tr>
             </tbody>
             {% endfor %}
+
         </table>
+       </div>
+    <div class="text-center">
+        <a href="{{ path('app_create') }}" class="btn btn-primary btn-lg mt-4 mx-5 rounded">Créer une sortie</a>
+    </div>
 {% endblock %}
 

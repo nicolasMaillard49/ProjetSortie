@@ -2,3 +2,19 @@ html{
     overflow-x: hidden;
     height: 100%;
 }
+
+.my-custom-scrollbar{
+    position:relative;
+    height: 17em;
+    overflow: auto;
+}
+
+.table-wrapper-scroll-y{
+    display: block;
+}
+
+.text{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
