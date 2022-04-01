@@ -35,11 +35,21 @@ html{
     width: 25px;
 }
 
+.bi-plus-circle{
+    height: 25px;
+    width: 25px;
+}
+
+.bi-plus-circle:hover{
+    color:lightgreen;
+    cursor: pointer;
+}
+
 .bi-trash:hover{
     color:red;
     cursor:pointer;
 }
 
 .bi-pencil:hover{
-    color:lightgreen;
+    color:orange;
 }
