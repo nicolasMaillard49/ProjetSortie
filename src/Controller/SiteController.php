@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Site;
+use App\Form\ModifySiteFormType;
 use App\Form\SiteType;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,22 +28,10 @@ class SiteController extends AbstractController
     /**
      * @Route("liste", name="liste")
      */
-    public function liste(): Response
+    public function liste(EntityManagerInterface $em, Request $request): Response
     {
         if(!$this->isGranted('ROLE_ADMIN')){
             return $this->redirectToRoute('app_liste_sortie');
-        }
-        $sites = $this->siteRepo->findAll();
-        return $this->render('/site/liste_sites.html.twig', compact('sites'));
-    }
-
-    /**
-     * @Route("create", name="create")
-     */
-    public function create(Request $request, EntityManagerInterface $em): Response
-    {
-        if(!$this->isGranted('ROLE_ADMIN')){
-            return $this->redirectToRoute('app_liste_site');
         }
         $site = new Site();
         $formSite = $this->createForm(SiteType::class, $site);
@@ -51,10 +40,32 @@ class SiteController extends AbstractController
         if($formSite->isSubmitted() && $formSite->isValid()){
             $em->persist($site);
             $em->flush();
+            return $this->redirectToRoute('app_site_liste');
         }
 
-        return $this->render('site/create.html.twig', [
-            'formSite' => $formSite->createView()
+        $sites = $this->siteRepo->findAll();
+        return $this->render('/site/liste_sites.html.twig',[
+            'formSite' => $formSite->createView(),
+            'sites' => $sites
         ]);
+    }
+
+
+    /**
+     * @Route("supprimer", name="supprimer")
+     */
+    public function supprimer(Request $request): Response
+    {
+        if(!$this->isGranted('ROLE_ADMIN')){
+            return $this->redirectToRoute('app_site_liste');
+        }
+        $submittedToken = $request->request->get("token");
+
+        if($this->isCsrfTokenValid('delete-item', $submittedToken)){
+            $site = $this->siteRepo->find($request->request->get("id"));
+            $this->siteRepo->remove($site);
+        }
+
+        return $this->json($this->isCsrfTokenValid('delete-item', $submittedToken));
     }
 }

@@ -55,7 +55,9 @@ class ModifyUserType extends AbstractType
                 ]
             ])
 
-            ->add('Valider', SubmitType::class)
+            ->add('Valider', SubmitType::class,[
+                'attr'=>["class"=>"btn btn-success"]
+            ])
         ;
         if($this->auth->isGranted('ROLE_ADMIN')){
             $builder->add('site', EntityType::class, [

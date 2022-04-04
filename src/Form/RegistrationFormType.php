@@ -77,11 +77,11 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['autocomplete' => 'new-password', "class"=>"border border-primary"],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Veuillez renseigner un mot de passe',
                     ]),
                     new Length([
                         'min' => 3,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Votre mot de passe doit contenir au minimum {{ limit }} caractères',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
