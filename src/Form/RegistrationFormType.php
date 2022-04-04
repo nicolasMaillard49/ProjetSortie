@@ -38,7 +38,12 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                     new NotNull(),
-                    new Regex("/^[a-z\-0-9]+$/i", "Le pseudo ne doit contenir que des caractères alphanumériques.")
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Le nom doit contenir au minimum {{ limit }} caractères.',
+                        'max' => 50,
+                    ]),
+                    new Regex("/^[a-zA-Z]+$/i", "Le nom ne doit contenir que des lettres.")
                 ]
             ])
             ->add('prenom', TextType::class,[
@@ -46,7 +51,12 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                     new NotNull(),
-                    new Regex("/^[a-z\-0-9]+$/i", "Le pseudo ne doit contenir que des caractères alphanumériques.")
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Le prenom doit contenir au minimum {{ limit }} caractères.',
+                        'max' => 50,
+                    ]),
+                    new Regex("/^[a-zA-Z]+$/i", "Le prenom ne doit contenir que des lettres.")
                 ]
             ])
             ->add('pseudo', TextType::class,[

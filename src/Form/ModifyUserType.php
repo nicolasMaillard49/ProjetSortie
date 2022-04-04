@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Regex;
@@ -60,13 +61,40 @@ class ModifyUserType extends AbstractType
             ])
         ;
         if($this->auth->isGranted('ROLE_ADMIN')){
-            $builder->add('site', EntityType::class, [
+            $builder
+                ->add('site', EntityType::class, [
                 'class' => Site::class,
                 'choice_label' => 'nom',
                 'expanded'=> false,
                 'multiple'=>false,
                 'attr' => ['class' => 'border border-primary'],
-            ]);
+            ])
+                ->add('nom', TextType::class,[
+                'attr'=>["class"=>"border border-primary"],
+                'constraints' => [
+                    new NotBlank(),
+                    new NotNull(),
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Le nom doit contenir au minimum {{ limit }} caractères.',
+                        'max' => 50,
+                    ]),
+                    new Regex("/^[a-zA-Z]+$/i", "Le nom ne doit contenir que des lettres.")
+                ]
+            ])
+                ->add('prenom', TextType::class,[
+                    'attr'=>["class"=>"border border-primary"],
+                    'constraints' => [
+                        new NotBlank(),
+                        new NotNull(),
+                        new Length([
+                            'min' => 2,
+                            'minMessage' => 'Le prenom doit contenir au minimum {{ limit }} caractères.',
+                            'max' => 50,
+                        ]),
+                        new Regex("/^[a-zA-Z]+$/i", "Le prenom ne doit contenir que des lettres.")
+                    ]
+                ]);
         }
     }
 
