@@ -156,7 +156,7 @@ class SortieController extends AbstractController
             $organisateur = $partirepo->find($id);
 
             $sortie->setOrganisateur($organisateur);
-            $sortie->addParticipant($organisateur);
+
 
             $em->persist($sortie);
             $em->flush();
@@ -242,35 +242,36 @@ class SortieController extends AbstractController
 
         //si l'etat de la sortie est oovert ont peut s'inscrire
         if ($sortieEtat === $ouvert) {
-            if ($sortie->getParticipants() !== $sortie->getOrganisateur()){
 
-               if($time > $dateLimite ){
+            if ($sortie->getParticipants() !== $sortie->getOrganisateur()) {
 
+                if ($time < $dateLimite) {
 
-                if ($count < $max) {
-                    $count = $count + 1;
-                    $sortie->addParticipant($participants);
-                    $sortierepo->add($sortie);
-                    $this->addFlash('Success', "tu t'es bien inscrit a la sortie");
+                    if ($count < $max) {
+                        $count = $count + 1;
+                        $sortie->addParticipant($participants);
+                        $sortierepo->add($sortie);
+                        $this->addFlash('Success', "tu t'es bien inscrit a la sortie");
+                    } else {
+                        $sortie->setEtat($cloture);
+                        $sortierepo->add($sortie);
+                        $this->addFlash('Failed', "la sortie a atteins sont Maximum d'inscription");
+                    }
+
                 } else {
                     $sortie->setEtat($cloture);
                     $sortierepo->add($sortie);
-                    $this->addFlash('Failed', "la sortie a atteins sont Maximum d'inscription");
+                    $this->addFlash('Failed', "la date limite d'inscription est passé man deso");
                 }
 
-            }else{
-                $this->addFlash('Failed', "l'organisateur fait déja partis des participant");
-            }
-
             } else {
+                $this->addFlash('Failed', "l'organiisateur est déja participant de cette sortie");
+            }
+        }else {
             $this->addFlash('Failed', "la sortie n'est pas ouverte");
              }
 
-        }else{
-            $sortie->setEtat($cloture);
-            $sortierepo->add($sortie);
-            $this->addFlash('Failed', "la date limite d'inscription est passé man deso");
-        }
+
 
 /*
         if ($sortie->getEtat() === $cloture) {

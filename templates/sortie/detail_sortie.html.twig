@@ -68,15 +68,17 @@
         </tbody>
         </table>
         {% if sortie.organisateur ==  app.user%}
-            {% if sortie.etat.id != 2 %}
+            {% if sortie.etat.id == 1 %}
             <a class="btn btn-primary" href="{{ path('app_publier',{id:sortie.id}) }}">
                 publier la sortie
             </a>
 
-            {% endif %}
+            {% elseif sortie.etat.id == 1 or sortie.etat.id == 2 or sortie.etat.id == 3 %}
             <a class="btn btn-primary" href="{{ path('app_annule_sortie',{id:sortie.id}) }}">
                annuler la sortie
             </a>
+        {% endif %}
+
         {% endif %}
 
         {% set count = 0 %}
@@ -108,9 +110,10 @@
     </div>
 
 </div>
+        {% if sortie.participants is empty %}
         {% for participant in sortie.participants%}
         {% if sortie.etat.id == 2 %}
-            {% if app.user != participant or app.user != sortie.organisateur  %}
+            {% if app.user != participant and app.user != sortie.organisateur  %}
                 <a class="btn btn-primary" href="{{ path('app_inscription',{sortie:sortie.id, participants_id:app.user.id}) }}">
                     Participer
                 </a>
@@ -122,5 +125,5 @@
           {% endif %}
         {% endfor %}
         </div>
-
+        {% endif %}
 {% endblock %}
