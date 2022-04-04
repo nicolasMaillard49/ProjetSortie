@@ -16,14 +16,16 @@
         <form action="{{ path('app_liste_sortie') }}" method="get" class="row">
 
             <div class="col-8 offset-2">
-                <h3>Filtrer les sorties</h3>
+                <h3>Filtrer les sites</h3>
                 <div class="row">
                 <div class="col-6">
                 <label for="recherche">Le nom contient : </label>
-                <input name="recherche" type="text" class="form-control mb-3" placeholder="Rechercher un site par mot-clé" name="recherche_terme" id="recherche_terme" value="{{ app.request.get('recherche_terme') }}">
+                <input name="recherche" type="text" class="form-control mb-3 border border-primary" placeholder="Rechercher un site par mot-clé" name="recherche_terme" id="recherche_terme" value="{{ app.request.get('recherche_terme') }}">
                 </div>
                 <div class="col-2">
-                    <button class="btn btn-primary btn-lg p-4">Rechercher</button>
+                       <button type="submit" class="btn btn-primary mr-1 mt-3 mb-2 py-lg-3 px-3" id="btnRechercher" name="btnRechercher"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search justify-content-center" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                            </svg> <span> Rechercher</span></button>
                 </div>
                 </div>
             </div>

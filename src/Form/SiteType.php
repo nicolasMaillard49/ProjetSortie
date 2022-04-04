@@ -17,6 +17,8 @@ class SiteType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class,[
+                'attr'=>["class"=>"border border-primary",
+                ],
                 'constraints' => [
                     new NotBlank(),
                     new NotNull(),
