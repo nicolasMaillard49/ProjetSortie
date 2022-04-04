@@ -6,7 +6,6 @@ use App\Form\ModifyUserType;
 use App\Repository\ParticipantsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Message;
-use mysql_xdevapi\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -111,7 +110,7 @@ class ProfilController extends AbstractController
             if(!$this->getUser()){
                 return $this->redirectToRoute('app_liste_sortie');
             }
-            if( $request->get('old_password') != null && $new_pwd = $request->get('new_password') &&   $new_pwd_confirm = $request->get('new_password_confirm')){
+            if( $request->get('old_password') != null && $new_pwd = $request->get('new_password') && $new_pwd_confirm = $request->get('new_password_confirm')){
                 $old_pwd = $request->get('old_password');
                 $new_pwd = $request->get('new_password');
                 $new_pwd_confirm = $request->get('new_password_confirm');
@@ -130,8 +129,7 @@ class ProfilController extends AbstractController
                     $em->persist($participant);
                     $em->flush();
 
-
-                    $this->addFlash('success', 'Mot de passe Modifier avec succes,(Brandon va te fairt Enlek)');
+                    $this->addFlash('success', 'Mot de passe modifié avec succes');
                     return $this->redirectToRoute('app_logout');
 
                 } else {

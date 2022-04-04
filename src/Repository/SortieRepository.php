@@ -74,16 +74,6 @@ class SortieRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function sortieFiltre($site)
-    {
-        $query = $this->createQueryBuilder('c')
-            ->where('c.site = :site')
-            ->setParameter(
-                "site",$site
-            )
-            ->getQuery();
-        return $query->getResult();
-    }
 
 
 

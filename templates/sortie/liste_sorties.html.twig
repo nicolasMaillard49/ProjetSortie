@@ -90,7 +90,6 @@
                 <th scope="col">Date limite</th>
                 <th scope="col">Etat</th>
                 <th scope="col">Organisateur</th>
-                <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -105,7 +104,7 @@
                     <td><a class="text-reset"
                            href="{{ path('app_profil_id', { id:sortie.organisateur.id }) }} ">{{ sortie.organisateur.pseudo }}
                     </td>
-                    <td></td>
+
                 </tr>
            {% endif %}
             {% else %}
@@ -119,10 +118,20 @@
             </tbody>
             {% endfor %}
 
-        </table>
+        </table>{#btn btn-primary btn-lg mt-2 mx-5 rounded#}
+
        </div>
-    <div class="text-center">
-        <a href="{{ path('app_create') }}" class="btn btn-primary btn-lg mt-4 mx-5 rounded">Créer une sortie</a>
+    <div class="row">
+
+        <div class="col-3">
+            <div class="text-center">
+                <a href="{{ path('app_create') }}" class="btn btn-primary mr-1 mt-3 mb-2 py-3 px-2">Créer une sortie</a>
+            </div>
+        </div>
+        <div class="col-9">
+
+        </div>
     </div>
+
 {% endblock %}
 
