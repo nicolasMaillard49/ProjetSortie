@@ -9,7 +9,7 @@
         <h3>Filtrer les sorties</h3>
         <form action="{{ path('app_liste_sortie') }}" method="get" class="row">
             <div class="col-sm-6">
-                <input type="text" class="form-control mb-3" placeholder="Rechercher une sortie par mot-clé" name="recherche_terme" id="recherche_terme" value="{{ app.request.get('recherche_terme') }}">
+                <input type="text" class="form-control mb-3 border border-primary" placeholder="Rechercher une sortie par mot-clé" name="recherche_terme" id="recherche_terme" value="{{ app.request.get('recherche_terme') }}">
                 <select class="custom-select mb-3" name="recherche_site" aria-label="Example select with button addon">
                     <option selected>Choisir un site</option>
                     {% for site in sites %}
@@ -27,11 +27,11 @@
                 <div class="mb-3 row">
                     <div class="col-5">
                     <label for="debut">Date de début</label>
-                    <input class="rounded form-control" type="date" id="debut" name="date_debut" value="{{ app.request.get('date_debut') }}">
+                    <input class="rounded form-control border border-primary" type="date" id="debut" name="date_debut" value="{{ app.request.get('date_debut') }}">
                     </div>
                     <div class="col-6">
                     <label for="fin">Date de fin</label>
-                    <input class="rounded form-control" type="date" id="fin" name="date_fin" value="{{ app.request.get('date_fin') }}">
+                    <input class="rounded form-control border border-primary " type="date" id="fin" name="date_fin" value="{{ app.request.get('date_fin') }}">
                     </div>
                 </div>
             </div>
