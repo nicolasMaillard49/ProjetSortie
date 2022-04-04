@@ -33,7 +33,7 @@ class LieuController extends AbstractController
      */
     public function liste(EntityManagerInterface $em, Request $request): Response
     {
-        if(!$this->isGranted('ROLE_ADMIN')){
+        if(!$this->isGranted('ROLE_USER')){
             return $this->redirectToRoute('app_liste_sortie');
         }
         $lieu = new Lieu();
