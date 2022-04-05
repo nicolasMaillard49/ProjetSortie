@@ -97,6 +97,7 @@ class ModifyUserType extends AbstractType
                     ]
                 ])
                 ->add('images', FileType::class,[
+                    'attr'=>["class"=>"border border-primary"],
                     'label' => 'photo de profil',
                     'mapped' => false,
                     'required'=>false
