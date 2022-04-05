@@ -112,6 +112,7 @@
 </div>
         {% if sortie.participants is empty %}
         {% for participant in sortie.participants%}
+
         {% if sortie.etat.id == 2 %}
             {% if app.user != participant and app.user != sortie.organisateur  %}
                 <a class="btn btn-primary" href="{{ path('app_inscription',{sortie:sortie.id, participants_id:app.user.id}) }}">

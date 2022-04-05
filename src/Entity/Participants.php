@@ -85,6 +85,11 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $sorties;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Images::class, mappedBy="participants", cascade={"persist", "remove"})
+     */
+    private $images;
+
 
     public function __construct()
     {
@@ -323,5 +328,27 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
     {
 
         return $this->nom;
+    }
+
+    public function getImages(): ?Images
+    {
+        return $this->images;
+    }
+
+    public function setImages(?Images $images): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($images === null && $this->images !== null) {
+            $this->images->setParticipants(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($images !== null && $images->getParticipants() !== $this) {
+            $images->setParticipants($this);
+        }
+
+        $this->images = $images;
+
+        return $this;
     }
 }

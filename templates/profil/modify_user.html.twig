@@ -3,7 +3,20 @@
 {% block title %}Modifier{% endblock %}
 
 {% block body %}
-    <div class="container rounded bg-white mt-5 mb-5">
+<div class="container rounded bg-white ">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            {% if participants.images is empty %}
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgAJ2AL2BUJeYp3pvkvvWUg0bP1EkoyVqjog&usqp=CAU" class="rounded-circle mt-5" alt="Photo de profil" >
+                </div>
+            {% else %}
+                <div class="d-flex flex-column align-items-center text-center px-5 py-5">
+                    <img src="{{ asset('/uploads/'~participants.images.name) }}" class="rounded-circle mt-5" alt="Photo de profil" width="150px">
+                </div>
+            {% endif %}
+        </div>
+    <div class="container rounded bg-white mb-5">
         <div class="text-center">
             <h1>Modifier les informations de {{ participants.pseudo }}</h1>
         </div>
@@ -44,9 +57,7 @@
                     {{ form_row(modifyUserForm.pseudo) }}
                     {{ form_row(modifyUserForm.email) }}
                     {{ form_row(modifyUserForm.tel) }}
-                    {% if (is_granted('ROLE_ADMIN')) %}
-                        {{ form_row(modifyUserForm.site) }}
-                    {% endif %}
+                            {{ form_row(modifyUserForm.images) }}
                     <div class="row">
                         <div class="col-6 mt-4 text-center">
                             {{ form_widget(modifyUserForm.Valider) }}

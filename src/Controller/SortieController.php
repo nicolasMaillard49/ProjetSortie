@@ -76,7 +76,7 @@ class SortieController extends AbstractController
             return $this->render('security/login.html.twig');
         }
         //appel de la methode rechercheDetaillee dans SortieRepository afin de recupérer les sorties filtrées
-
+        $sortiesQuery = new Sortie();
         $sortiesQuery = $sortieRepo->rechercheDetaillee(
             ($request->query->get('recherche_terme') != null ? $request->query->get('recherche_terme') : null),
             ($request->query->get('recherche_site') != null ? $request->query->get('recherche_site') : null),
@@ -93,6 +93,7 @@ class SortieController extends AbstractController
         $sites = $siteRepo->findAll();
         //recuperation de tous les etats
         $etats = $etatRepo->findAll();
+
 
         $sorties = $sortiesQuery;
 

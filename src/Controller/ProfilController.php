@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Images;
 use App\Form\ModifyUserType;
+use App\Repository\ImagesRepository;
 use App\Repository\ParticipantsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Message;
@@ -56,6 +58,23 @@ class ProfilController extends AbstractController
         $modifyUserForm = $this->createForm(ModifyUserType::class, $user);
         $modifyUserForm->handleRequest($request);
         if($modifyUserForm->isSubmitted() && $modifyUserForm->isValid()){
+
+            //ont récupère l'image transmise
+            $images = $modifyUserForm->get('images')->getData();
+
+            //ont génére un niuveau nom de fichieer aléatoire
+            $fichier = md5(uniqid()). '.' .$images->guessExtension();
+
+            //ont copie le nom du fechier dans le dossier upload
+            $images->move(
+                $this->getParameter('images_directory'),
+                $fichier
+            );
+
+            //ont stocke le nom de l'image en bdd
+            $img = new Images();
+            $img->setName($fichier);
+            $user->setImages($img);
 
             $em->persist($user);
             $em->flush();
@@ -139,5 +158,28 @@ class ProfilController extends AbstractController
 
             return $this->render('/profil/change_password.html.twig');
         }
+
+    /**
+     * @Route("/supprimer/image{id<\d+>}", name="supprimer_image")
+     */
+    public function supprimage(Request $request, ImagesRepository $imagerepo): Response
+    {
+        if(!$this->getUser()){
+            return $this->redirectToRoute('app_liste_sortie');
+        }
+
+        $data = json_decode($request->getContent(),true);
+
+        $submittedToken = $request->request->get("token");
+        if($this->isCsrfTokenValid('delete-item', $submittedToken)){
+            $image = $imagerepo->find($request->request->get("id"));
+            $nom = $image->getName();
+            unlink($this->getParameter('images_directory').'/'.$nom);
+
+            $imagerepo->remove($image);
+        }
+
+        return $this->json($this->isCsrfTokenValid('delete-item', $submittedToken));
+    }
 
 }

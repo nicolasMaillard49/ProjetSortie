@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Images;
 use App\Entity\Participants;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,6 +31,24 @@ class RegistrationController extends AbstractController
         $user->setRoles($roles);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //ont récupère l'image transmise
+            $images = $form->get('images')->getData();
+
+            //ont génére un niuveau nom de fichieer aléatoire
+            $fichier = md5(uniqid()). '.' .$images->guessExtension();
+
+            //ont copie le nom du fechier dans le dossier upload
+            $images->move(
+                $this->getParameter('images_directory'),
+                $fichier
+            );
+
+            //ont stocke le nom de l'image en bdd
+            $img = new Images();
+            $img->setName($fichier);
+            $user->setImages($img);
+
+
             // encode the plain password
             $user->setPassword(
             $userPasswordHasher->hashPassword(
