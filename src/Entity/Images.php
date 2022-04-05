@@ -23,7 +23,7 @@ class Images
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity=Participants::class, inversedBy="images", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Participants::class, inversedBy="images", cascade={"persist"})
      */
     private $participants;
 
