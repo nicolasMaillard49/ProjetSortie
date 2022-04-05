@@ -40,9 +40,9 @@ html{
     width: 25px;
 }
 
-.bi-plus-circle:hover{
-    color:lightgreen;
-    cursor: pointer;
+.bi-search{
+    height: 25px;
+    width: 25px;
 }
 
 .bi-trash:hover{
