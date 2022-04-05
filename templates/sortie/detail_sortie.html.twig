@@ -82,7 +82,7 @@
 
 
             {% elseif sortie.etat.id == 1 or sortie.etat.id == 2 or sortie.etat.id == 3 %}
-            <a class="btn btn-primary d-flex justify-content-end" href="{{ path('app_annule_sortie',{id:sortie.id}) }}">
+            <a class="btn btn-primary" href="{{ path('app_annule_sortie',{id:sortie.id}) }}">
                annuler la sortie
             </a>
         {% endif %}

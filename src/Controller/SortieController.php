@@ -396,17 +396,19 @@ class SortieController extends AbstractController
         $datedebut = $sortie->getDateHeureDebut();
         $time = new \DateTime();
         $date = new \DateTime('@' . strtotime('now'));
-        $time = date('H:i:s \O\n d/m/Y');
+        $time = date('Y-m-d  H:i:s');
 
 
-        if ($user === $organisateur) {
-            if ($datedebut >= $time) {
+        if ($user === $organisateur or $user->getRoles() == ["ROLE_ADMIN"]) {
+            if ($datedebut <= $time) {
                 $this->addFlash('Failed', "la date debut sortie est passé tu ne peut plus annuler la sortie");
             }
-            else{
+            else if($sortie->getEtat()->getId() !== 4){
                 $sortie->setEtat($etat);
                 $sortierepo->add($sortie);
                 $this->addFlash('Success', "Sortie Annuler avec succès");
+            }else{
+                $this->addFlash('Failed', "La sortie a comencer ou est finis depuis");
             }
         } else {
             $this->addFlash('Failed', "seul l'organisateur peut annuler une sortie");
@@ -431,12 +433,17 @@ class SortieController extends AbstractController
         $count = $sortie->getParticipants()->count();
         $etat = new Etat();
         $etat = $etatrepo->find(2);
-        $etatSor = $sortie->getId();
-      if ($participants !== $organisateur and $etatSor == 2 or $etatSor == 3){
-          $sortie->removeParticipant($participants);
-          $sortie->setEtat($etat);
-          $sortierepo->add($sortie);
-          $this->addFlash('Success','tu ne fait plus partis des partiçipants de cette sortie');
+        $etatSor = $sortie->getEtat()->getId();
+      if ($participants->getId() != $organisateur->getId()){
+          if($etatSor == 2 or $etatSor == 3 ){
+              $sortie->removeParticipant($participants);
+              $sortie->setEtat($etat);
+              $sortierepo->add($sortie);
+              $this->addFlash('Success','tu ne fait plus partis des partiçipants de cette sortie');
+          }else{
+              $this->addFlash('Failed',"la sortie n'est pas iuverte ou cloturer");
+          }
+
       }else{
           $this->addFlash('Failed',"L'organisateur ne peut pas se désister d'une sortie");
 
