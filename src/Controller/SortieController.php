@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Lieu;
 use App\Entity\Participants;
 use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Form\FiltreType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
+use App\Repository\LieuRepository;
 use App\Repository\ParticipantsRepository;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
@@ -25,6 +27,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -122,58 +125,58 @@ class SortieController extends AbstractController
         return $this->render('sortie/detail_sortie.html.twig', compact('sortie','count'));
     }
 
-    /**
-     * @Route("/create", name="app_create")
-     */
-    public function create(Request $request, EntityManagerInterface $em, EtatRepository $etarepo, ParticipantsRepository $partirepo): Response
-    {
-
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
-
-        $sortie = new Sortie();
-
-        $formSortie = $this->createForm(SortieType::class, $sortie);
-
-        $formSortie->handleRequest($request);
-
-
-        if ($formSortie->isSubmitted() && $formSortie->isValid()) {
-
-            $etat = new Etat();
-
-            $id = 1;
-
-            $etat = $etarepo->find($id);
-
-            $sortie->setEtat($etat);
-
-
-            $organisateur = new Participants();
-
-            $id = $this->getUser();
-
-            $organisateur = $partirepo->find($id);
-
-            $sortie->setOrganisateur($organisateur);
-
-
-            $em->persist($sortie);
-            $em->flush();
-
-            $id = $sortie->getID();
-            return $this->redirectToRoute('app_detail_sortie', ['id' => $id]);
-
-
-        }
-
-
-        return $this->render('sortie/create_sortie.html.twig', [
-            'formSortie' => $formSortie->createView()
-        ]);
-
-    }
+//    /**
+//     * @Route("/create", name="app_create")
+//     */
+//    public function create(Request $request, EntityManagerInterface $em, EtatRepository $etarepo, ParticipantsRepository $partirepo): Response
+//    {
+//
+//        if (!$this->getUser()) {
+//            return $this->redirectToRoute('app_login');
+//        }
+//
+//        $sortie = new Sortie();
+//
+//        $formSortie = $this->createForm(SortieType::class, $sortie);
+//
+//        $formSortie->handleRequest($request);
+//
+//
+//        if ($formSortie->isSubmitted() && $formSortie->isValid()) {
+//
+//            $etat = new Etat();
+//
+//            $id = 1;
+//
+//            $etat = $etarepo->find($id);
+//
+//            $sortie->setEtat($etat);
+//
+//
+//            $organisateur = new Participants();
+//
+//            $id = $this->getUser();
+//
+//            $organisateur = $partirepo->find($id);
+//
+//            $sortie->setOrganisateur($organisateur);
+//
+//
+//            $em->persist($sortie);
+//            $em->flush();
+//
+//            $id = $sortie->getID();
+//            return $this->redirectToRoute('app_detail_sortie', ['id' => $id]);
+//
+//
+//        }
+//
+//
+//        return $this->render('sortie/create_sortie.html.twig', [
+//            'formSortie' => $formSortie->createView()
+//        ]);
+//
+//    }
 
 
     /**
@@ -441,6 +444,68 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/detail_sortie.html.twig', compact('sortie','count'));
     }
+
+    /**
+     * Fonction permettant d'ajouter une sortie
+     * @Route("/sortie/ajouter", name="sortie_ajouter")
+     */
+    public function ajouter(EtatRepository $etatRepo, EntityManagerInterface $entityManager, Request $request)
+    {
+        //Si l'utilisateur n'est pas encore connecté, il lui sera demandé de se connecter (par exemple redirigé vers la page de connexion).
+        //Si l'utilisateur est connecté, mais n'a pas le rôle ROLE_USER, il verra la page 403 (accès refusé)
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        //instanciation d'une sortie
+        $sortie = new Sortie();
+        //j'hydrate l'etat à créé
+        $sortie->setEtat($etatRepo->find(1));
+        //j'hydrate l'organisateur en récuperant l'utilisateur connecté
+        $sortie->setOrganisateur($this->getUser());
+        //j'hydrate le site en recuperant le site de l'utilisateur connecté
+        $sortie->setSite($this->getUser()->getSite());
+
+        //creation du formulaire
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
+        //chargement du formulaire avec les données dans le contexte de requete
+        $sortieForm->handleRequest($request);
+
+        //si le formulaire est soumis et validé alors ...
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+            //j'informe le serveur de l'ajout de la sortie
+            $entityManager->persist($sortie);
+            //je valide l'ajout
+            $entityManager->flush();
+            //affichage d'un message flash pour informer du bon déroulement de l'operation
+            $this->addFlash("success", "La sortie a bien été créée");
+
+            //délegation au controlleur SortieController fonction liste
+            return $this->redirectToRoute('app_liste_sortie');
+        }
+        //delegation au twig ajout.html.twig en passant en parametre le formulaire (sortieForm)
+        return $this->render("sortie/create_sortie.html.twig", [
+            "form" => $sortieForm->createView()
+        ]);
+
+    }
+
+    /**
+     * @Route("/lieu/rechercheAjaxByVille", name="lieu_rechercher_ajax_by_ville")
+     */
+    public function rechercheAjaxByVille(Request $request , EntityManagerInterface $entityManager, LieuRepository $lieurepo): JsonResponse
+    {
+        $lieux = $lieurepo->findBy(['ville' => $request->request->get('ville_id')]);
+        $json_data = array();
+        $i = 0;
+        if(sizeof($lieux)> 0){
+            foreach ($lieux as $lieu){
+                $json_data[$i++] = array( 'id' => $lieu->getId(), 'nom' => $lieu->getNom());
+            }
+            return new JsonResponse($json_data);
+        }else{
+            $json_data[$i++] = array( 'id' => '', 'nom' => 'Pas de lieu correspondant à votre recherche.');
+            return new JsonResponse($json_data);
+        }
+    }
+
 
 }
 
