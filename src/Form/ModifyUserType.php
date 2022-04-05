@@ -68,6 +68,7 @@ class ModifyUserType extends AbstractType
         if ($this->auth->isGranted('ROLE_ADMIN')) {
             $builder
                 ->add('site', EntityType::class, [
+                    'attr' => ["class" => "border border-primary"],
                     'class' => Site::class,
                     'choice_label' => 'nom',
                     'expanded' => false,
