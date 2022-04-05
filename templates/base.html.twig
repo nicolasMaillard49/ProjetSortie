@@ -31,7 +31,7 @@
 <body>
 
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary p-3">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary p-2">
     <a href="{{ path("app_liste_sortie") }}">
         <img class="mx-3" src="{{ asset('img/logo1.png') }}" alt="logo" height="40px"
                                                   width="40px"></a>
@@ -88,10 +88,12 @@
     </div>
     {% if app.user() %}
     {% if app.user().images is empty %}
-        <a class="nav-item nav-link d-flex justify-content-end" href="{{ path("app_profil_id",{id:app.user.id}) }}">{{ app.user.pseudo}}</a>
+        <a class="nav-item nav-link d-flex justify-content-end mt-0 mb-0 p-0 me-2" href="{{ path("app_profil_id",{id:app.user.id}) }}">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgAJ2AL2BUJeYp3pvkvvWUg0bP1EkoyVqjog&usqp=CAU" class="rounded-circle mt-0" alt="Photo de profil" width="50px">
+        </a>
     {% else %}
-        <a class="nav-item nav-link d-flex justify-content-end m-0 p-0 me-2" href="{{ path("app_profil_id",{id:app.user.id}) }}">
-            <img src="{{ asset('/uploads/'~app.user.images.name) }}" class="rounded-circle mt-1" alt="Photo de profil" width="50px">
+        <a class="nav-item nav-link d-flex justify-content-end mt-0 mb-0 p-0 me-2" href="{{ path("app_profil_id",{id:app.user.id}) }}">
+            <img src="{{ asset('/uploads/'~app.user.images.name) }}" class="rounded-circle mt-0" alt="Photo de profil" width="50px">
         </a>
     {% endif %}
     {% endif %}

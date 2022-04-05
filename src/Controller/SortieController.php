@@ -253,6 +253,10 @@ class SortieController extends AbstractController
                         $sortie->addParticipant($participants);
                         $sortierepo->add($sortie);
                         $this->addFlash('Success', "tu t'es bien inscrit a la sortie");
+                        if($count == $max){
+                            $sortie->setEtat($cloture);
+                            $sortierepo->add($sortie);
+                        }
                     } else {
                         $sortie->setEtat($cloture);
                         $sortierepo->add($sortie);
@@ -417,13 +421,17 @@ class SortieController extends AbstractController
      * )
      * @throws ORMException
      */
-    public function desiste(Sortie $sortie, Participants $participants,SortieRepository $sortierepo): Response
+    public function desiste(Sortie $sortie, Participants $participants,SortieRepository $sortierepo,EtatRepository $etatrepo): Response
     {
 
         $organisateur = $sortie->getOrganisateur();
         $count = $sortie->getParticipants()->count();
-      if ($participants !== $organisateur){
+        $etat = new Etat();
+        $etat = $etatrepo->find(2);
+        $etatSor = $sortie->getId();
+      if ($participants !== $organisateur and $etatSor == 2 or $etatSor == 3){
           $sortie->removeParticipant($participants);
+          $sortie->setEtat($etat);
           $sortierepo->add($sortie);
           $this->addFlash('Success','tu ne fait plus partis des partiçipants de cette sortie');
       }else{

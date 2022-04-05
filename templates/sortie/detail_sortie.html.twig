@@ -121,8 +121,17 @@
 
 </div>
         {% if sortie.participants is empty %}
+            {% if app.user in sortie.participants %}
+                dedans man
+                {% else %}
+                    {% if app.user != sortie.organisateur and sortie.etat.id == 2%}
+                        <a class="btn btn-primary" href="{{ path('app_inscription',{sortie:sortie.id, participants_id:app.user.id}) }}">
+                            Participer
+                        </a>
+                    {% endif %}
+                {% endif %}
+            {% else %}
         {% for participant in sortie.participants%}
-
         {% if sortie.etat.id == 2 %}
             {% if app.user != participant and app.user != sortie.organisateur  %}
                 <a class="btn btn-primary" href="{{ path('app_inscription',{sortie:sortie.id, participants_id:app.user.id}) }}">
