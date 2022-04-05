@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Images;
+use App\Entity\Participants;
 use App\Form\ModifyUserType;
 use App\Repository\ImagesRepository;
 use App\Repository\ParticipantsRepository;
@@ -146,9 +147,7 @@ class ProfilController extends AbstractController
             return $this->redirectToRoute('app_profil_modify_password');
         }
 
-
-
-        if ($request->get('old_password') != null && $request->get('new_password') != null && $request->get('new_password_confirm')
+  if ($request->get('old_password') != null && $request->get('new_password') != null && $request->get('new_password_confirm')
             != null && $request->get('new_password') == $request->get('new_password_confirm')) {
 
 
@@ -183,6 +182,89 @@ class ProfilController extends AbstractController
         }
 
     }
+
+    /**
+     * @Route("/verify_mail", name="verify_mail")
+     */
+
+    public function verify_mail(Request $request, ParticipantsRepository $prepo): Response
+    {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_liste_sortie');
+        }
+        $user = new Participants();
+if($request->get('email') != null){
+    $email = $request->get('email');
+    $user = $prepo->findOneBy(array
+    ('email'=>$email)
+    );
+
+    if($user != null){
+        $id = $user->getId();
+        return $this->redirectToRoute('app_profil_new_password',compact('id'));
+    }else{
+
+        $this->addFlash('Failed','aucun utilisateur trouver avec cette email');
+        return $this->render('profil/verify_mail.html.twig' );
+    }
+
+    }
+        return $this->render('profil/verify_mail.html.twig');
+    }
+
+
+
+
+    /**
+     * @Route("/new_password/{id}", name="new_password")
+     */
+    public function new_password(Request $request, UserPasswordEncoderInterface $encoder,EntityManagerInterface $em,$id, ParticipantsRepository $prepo): Response
+    {
+        $user = new Participants();
+        $user = $prepo->find($id);
+
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_liste_sortie');
+        }
+
+        if($request->get('new_password') != $request->get('new_password_confirm')){
+            $this->addFlash('Failed', "Veuillez entrer des champs valides");
+
+        }
+
+        if ($request->get('new_password') != null && $request->get('new_password_confirm')
+            != null && $request->get('new_password') == $request->get('new_password_confirm')) {
+
+            $new_pwd = $request->get('new_password');
+            $new_pwd_confirm = $request->get('new_password_confirm');
+
+
+            $user = new Participants();
+
+            $user = $prepo->find($id);
+
+            $id = $user->getId();
+
+
+                $new_pwd_encoded = $encoder->encodePassword($user, $new_pwd_confirm);
+
+                $user->setPassword($new_pwd_encoded);
+                $em->persist($user);
+                $em->flush();
+
+                $this->addFlash('success', 'Mot de passe modifié avec succes');
+                return $this->redirectToRoute('app_logout');
+
+        } else {
+            return $this->render('profil/newPassword.html.twig',compact('user'));
+        }
+
+
+    }
+
+
+
+
 
     /**
      * @Route("/supprimer/image{id<\d+>}", name="supprimer_image")
