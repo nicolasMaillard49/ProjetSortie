@@ -6,10 +6,8 @@
 
 {% block body %}
     <div class="container-fluid">
-
-        <br>
         <div class="row text-center">
-            <h1>detail de "{{ sortie.nom }}"</h1>
+            <h1 class="mt-4">detail de {{ sortie.nom }}</h1>
         </div>
         {% for message in app.flashes('Failed') %}
             <div class="alert alert-danger text-center">
@@ -21,52 +19,61 @@
                 {{ message }}
             </div>
         {% endfor %}
-        <br>
-        <br>
-        <table class="table table-hover table-dark text-center no-padding">
-            <thead>
-            <tr>
-                <th scope="col">nom</th>
-                <th scope="col">debut</th>
-                <th scope="col">duree</th>
-                <th scope="col">Date limite</th>
-                <th scope="col">Description</th>
-            </tr>
-            </thead>
+    <div class="row mx-5 my-3">
+        <div class="offset-1 col-4">
+            <div class="mt-2">
+                <label class="labels">Nom de la sortie</label>
+                <label class="form-control border border-primary">{{  sortie.nom }}</label>
+            </div>
+            <div class="mt-2">
+                <label class="labels">Date et heure de la sortie</label>
+                <label class="form-control border border-primary">{{ sortie.dateHeureDebut|date(" d/m/Y H:i") }}</label>
+            </div>
+            <div class="mt-2">
+                <label class="labels">Date limite d'inscription</label>
+                <label class="form-control border border-primary">{{  sortie.dateLimiteInscription|date(" d/m/Y H:i") }}</label>
+            </div>
+            <div class="mt-2">
+                <label class="labels">Nombre de places</label>
+                <label class="form-control border border-primary">{{ count }} / {{ sortie.inscriptionMax }}</label>
+            </div>
+            <div class="mt-2">
+                <label class="labels">Durée</label>
+                <label class="form-control border border-primary">{{ sortie.duree|date(" H:i ") }}</label>
+            </div>
+            <div class="mt-2">
+                <label class="labels">Description et infos</label>
+                <label class="form-control border border-primary">{{ sortie.description }}</label>
+            </div>
+        </div>
 
-            <tbody>
-                <tr>
-                    <td>{{ sortie.nom }}</td>
-                    <td>{{sortie.dateHeureDebut|date(" d/m/Y H:i ")}}</td>
-                    <td>{{ sortie.duree |date(" H:i ")}}</td>
-                    <td>{{sortie.dateLimiteInscription|date(" d/m/Y H:i ")}} </td>
-                    <td>{{ sortie.description|slice(0,80) }}...</td>
-            </tbody>
-        </table>
-
-        <table class="table table-hover table-dark text-center no-padding">
-            <thead>
-            <tr>
-                <th scope="col">places</th>
-                <th scope="col">site</th>
-                <th scope="col">Lieu</th>
-                <th scope="col">Rue</th>
-                <th scope="col">postal</th>
-                <th scope="col">Latitude</th>
-                <th scope="col">Longitude</th>
-
-        <tbody>
-                 <tr>
-                    <td>{{ count }}/{{ sortie.inscriptionMax }}</td>
-                    <td>{{ sortie.site }}</td>
-                    <td>{{ sortie.lieu.nom }}</td>
-                    <td>{{ sortie.lieu.rue }}</td>
-                    <td>{{ sortie.lieu.ville.codePostal }}</td>
-                    <td>{{ sortie.lieu.latitude }}</td>
-                    <td>{{ sortie.lieu.longitude }}</td>
-                </tr>
-        </tbody>
-        </table>
+        <div class="offset-2 col-4">
+            <div class="mt-2">
+                <label class="labels">Ville organisatrice</label>
+                <label class="form-control border border-primary">{{  sortie.lieu.ville.nom }}</label>
+            </div>
+            <div class="mt-2">
+                <label class="labels">Lieu</label>
+                <label class="form-control border border-primary">{{ sortie.lieu.nom }}</label>
+            </div>
+            <div class="mt-2">
+                <label class="labels">Rue</label>
+                <label class="form-control border border-primary">{{ sortie.lieu.rue }}</label>
+            </div>
+            <div class="mt-2">
+                <label class="labels">Code postal</label>
+                <label class="form-control border border-primary">{{ sortie.lieu.ville.codePostal }}</label>
+            </div>
+            <div class="mt-2">
+                <label class="labels">Latitude</label>
+                <label class="form-control border border-primary">{{ sortie.lieu.latitude }}</label>
+            </div>
+            <div class="mt-2">
+                <label class="labels">Longitude</label>
+                <label class="form-control border border-primary">{{ sortie.lieu.longitude }}</label>
+            </div>
+        </div>
+    </div>
         {% if sortie.organisateur ==  app.user%}
             {% if sortie.etat.id == 1 %}
             <a class="btn btn-primary" href="{{ path('app_publier',{id:sortie.id}) }}">
