@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Images;
 use App\Entity\Participants;
 use App\Form\RegistrationFormType;
+use App\Repository\ImagesRepository;
+use App\Repository\ParticipantsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +22,7 @@ class RegistrationController extends AbstractController
      * @Route("/register", name="app_register")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ImagesRepository $imagerepo): Response
     {
         $user = new Participants();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -34,21 +36,24 @@ class RegistrationController extends AbstractController
             //ont récupère l'image transmise
             $images = $form->get('images')->getData();
 
-            //ont génére un niuveau nom de fichieer aléatoire
-            $fichier = md5(uniqid()). '.' .$images->guessExtension();
-
-            //ont copie le nom du fechier dans le dossier upload
-            $images->move(
-                $this->getParameter('images_directory'),
-                $fichier
-            );
-
-            //ont stocke le nom de l'image en bdd
-            $img = new Images();
-            $img->setName($fichier);
-            $user->setImages($img);
-
-
+            if($images != null){
+                if($user->getImages() != null){
+                    $imageId = $user->getImages()->getId();
+                    $image = $imagerepo->find($imageId);
+                    $imagerepo->remove($image);
+                }
+                //ont génére un niuveau nom de fichieer aléatoire
+                $fichier = md5(uniqid()). '.' .$images->guessExtension();
+                //ont copie le nom du fechier dans le dossier upload
+                $images->move(
+                    $this->getParameter('images_directory'),
+                    $fichier
+                );
+                //ont stocke le nom de l'image en bdd
+                $img = new Images();
+                $img->setName($fichier);
+                $user->setImages($img);
+            }
             // encode the plain password
             $user->setPassword(
             $userPasswordHasher->hashPassword(
@@ -56,13 +61,8 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            dump($user);
-
-
-           $entityManager->persist($user);
+            $entityManager->persist($user);
             $entityManager->flush();
-
-
             return $this->redirectToRoute('app_liste_sortie');
         }
 
