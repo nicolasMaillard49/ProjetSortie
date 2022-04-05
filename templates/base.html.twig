@@ -42,11 +42,8 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             {% if app.user  %}
-
                 <a class="nav-item nav-link " href="{{ path("app_liste_sortie") }}">Accueil</a>
-                <a class="nav-item nav-link" href="{{ path("app_profil_id",{id:app.user.id}) }}">{{ app.user.pseudo}}</a>
                 <a class="nav-item nav-link" href="{{ path("app_logout") }}">Se déconnecter</a>
-
             {% if (not is_granted('ROLE_ADMIN')) %}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -85,8 +82,19 @@
                 </div>
 
             </li>
+
         </div>
+
     </div>
+    {% if app.user() %}
+    {% if app.user().images is empty %}
+        <a class="nav-item nav-link d-flex justify-content-end" href="{{ path("app_profil_id",{id:app.user.id}) }}">{{ app.user.pseudo}}</a>
+    {% else %}
+        <a class="nav-item nav-link d-flex justify-content-end m-0 p-0 me-2" href="{{ path("app_profil_id",{id:app.user.id}) }}">
+            <img src="{{ asset('/uploads/'~app.user.images.name) }}" class="rounded-circle mt-1" alt="Photo de profil" width="50px">
+        </a>
+    {% endif %}
+    {% endif %}
 </nav>
 {% block body %}
 {% endblock %}
@@ -95,5 +103,6 @@
 
 
 {% endblock %}
+
 </body>
 </html>
