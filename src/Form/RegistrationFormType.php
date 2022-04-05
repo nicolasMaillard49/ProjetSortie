@@ -54,10 +54,10 @@ class RegistrationFormType extends AbstractType
                     new NotNull(),
                     new Length([
                         'min' => 2,
-                        'minMessage' => 'Le prenom doit contenir au minimum {{ limit }} caractères.',
+                        'minMessage' => 'Le prénom doit contenir au minimum {{ limit }} caractères.',
                         'max' => 50,
                     ]),
-                    new Regex("/^[a-zA-Z]+$/i", "Le prenom ne doit contenir que des lettres.")
+                    new Regex("/^[a-zA-Z]+$/i", "Le prénom ne doit contenir que des lettres.")
                 ]
             ])
             ->add('pseudo', TextType::class,[
@@ -65,7 +65,7 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                     new NotNull(),
-                    new Regex("/^[a-z\-0-9]+$/i", "Le pseudo ne doit contenir que des caractères alphanumériques.")
+                    new Regex("/^[a-z\-0-9]+$/i", "Le pseudo peut seulement contenir des caractères alphanumériques.")
                 ]
             ])
             ->add('tel', TelType::class,[
@@ -73,7 +73,7 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                     new NotNull(),
-                    new Regex("/^(0|\+33)[1-9]( *[0-9]{2}){4}+$/i", "Le numéro de téléphone doit contenir 10 chiffres.")
+                    new Regex("/^(0|\+33)[1-9]( *[0-9]{2}){4}+$/i", "Le numéro de téléphone doit contenir 10 chiffres et commencer par un 0.")
                 ]
             ])
             ->add('site', EntityType::class,[
