@@ -58,3 +58,11 @@ html{
     padding:5%;
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
 }
+
+.btnEnr:hover{
+    background-color: lightgreen;
+}
+
+.btnAnn:hover{
+    background-color:red;
+}
