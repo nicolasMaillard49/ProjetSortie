@@ -79,9 +79,8 @@
             <a class="btn btn-primary" href="{{ path('app_publier',{id:sortie.id}) }}">
                 publier la sortie
             </a>
-
-
-            {% elseif sortie.etat.id == 1 or sortie.etat.id == 2 or sortie.etat.id == 3 %}
+            {% endif %}
+            {% if  sortie.etat.id == 1 or sortie.etat.id == 2 or sortie.etat.id == 3 %}
             <a class="btn btn-primary" href="{{ path('app_annule_sortie',{id:sortie.id}) }}">
                annuler la sortie
             </a>
@@ -89,7 +88,7 @@
 
         {% endif %}
 
-    <a class="btn btn-primary" href="{{ path('app_liste_sortie')}}">
+    <a class="btn btn-primary ms-5" href="{{ path('app_liste_sortie')}}">
         Retour à l'accueil
     </a>
 

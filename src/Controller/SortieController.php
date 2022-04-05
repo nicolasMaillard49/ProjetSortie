@@ -403,7 +403,7 @@ class SortieController extends AbstractController
             if ($datedebut <= $time) {
                 $this->addFlash('Failed', "la date debut sortie est passé tu ne peut plus annuler la sortie");
             }
-            else if($sortie->getEtat()->getId() !== 4){
+            else if($sortie->getEtat()->getId() != 4){
                 $sortie->setEtat($etat);
                 $sortierepo->add($sortie);
                 $this->addFlash('Success', "Sortie Annuler avec succès");
