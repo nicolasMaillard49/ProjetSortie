@@ -104,18 +104,18 @@ class RegistrationFormType extends AbstractType
                 'attr'=>["class"=>"border border-primary"],
                 'label' => 'photo de profil',
                 'mapped' => false,
-                'required'=>false
-             /*   'constraints'=>[
+                'required'=>false,
+                'constraints'=>[
                     new File([
                         'maxSize' => '1024k',
                         'mimeTypes' =>[
-                            'application/JPEG',
-                            'application/JPG',
-                            'application/PNG',
+                            'image/jpeg',
+                            'image/jpg',
+                            'image/png',
                         ],
                         'mimeTypesMessage' =>'Veuillez déposer une image au format jpeg, jpg ou png svp',
                     ])
-                ],*/
+                ],
             ])
 
 

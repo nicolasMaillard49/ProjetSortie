@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
@@ -60,11 +61,23 @@ class ModifyUserType extends AbstractType
             ->add('Valider', SubmitType::class, [
                 'attr' => ["class" => "btn btn-success"]
             ])
-            ->add('images', FileType::class, [
+            ->add('images', FileType::class,[
+                'attr'=>["class"=>"border border-primary"],
                 'label' => 'photo de profil',
                 'mapped' => false,
-                'required' => false
-            ]);;
+                'required'=>false,
+                'constraints'=>[
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' =>[
+                            'image/jpeg',
+                            'image/jpg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' =>'Veuillez déposer une image au format jpeg, jpg ou png svp',
+                    ])
+                ],
+            ]);
         if ($this->auth->isGranted('ROLE_ADMIN')) {
             $builder
                 ->add('site', EntityType::class, [
@@ -73,7 +86,6 @@ class ModifyUserType extends AbstractType
                     'choice_label' => 'nom',
                     'expanded' => false,
                     'multiple' => false,
-                    'attr' => ['class' => 'border border-primary'],
                 ])
                 ->add('nom', TextType::class, [
                     'attr' => ["class" => "border border-primary"],

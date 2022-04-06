@@ -48,6 +48,7 @@ class SortieType extends AbstractType
                 'attr' => ["class" => "border border-primary"]
             ])
             ->add('ville', EntityType::class, [
+                    'attr' => ["class" => "border border-primary"],
                     'class' => 'App\Entity\Ville',
                     'mapped' => false,
                     'choice_label' => 'nom',
@@ -87,9 +88,10 @@ class SortieType extends AbstractType
 
     private function addLieuField(FormInterface $form, ?Ville $ville){
         $builder = $form->add('lieu', EntityType::class,[
+            'attr' => ["class" => "border border-primary"],
             'class' => Lieu::class,
             'choice_label' => 'nom',
-            'placeholder' => $ville ? 'Selectionnez votre lieu' : 'Selectionnez votre ville',
+            'placeholder' => $ville ? 'Selectionnez votre lieu' : 'Selectionnez votre lieu',
             'required' => true,
             'auto_initialize' => false,
             'choices' => $ville ? $ville->getLieu() : []
