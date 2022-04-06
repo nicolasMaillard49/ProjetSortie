@@ -35,6 +35,7 @@ class SortieType extends AbstractType
                 ]
             ])
             ->add('duree', TimeType::class, [
+                "widget" => "single_text",
                 'attr' => ["class" => "border border-primary"]
             ])
             ->add('dateLimiteInscription', DateTimeType::class, [

@@ -120,6 +120,7 @@ class RegistrationFormType extends AbstractType
 
 
             ->add('agreeTerms', CheckboxType::class, [
+                'attr'=>["class"=>"border border-primary"],
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
