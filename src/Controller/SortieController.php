@@ -485,7 +485,7 @@ class SortieController extends AbstractController
             $this->addFlash("success", "La sortie a bien été créée");
 
             //délegation au controlleur SortieController fonction liste
-            return $this->redirectToRoute('app_liste_sortie');
+            return $this->redirectToRoute('app_detail_sortie',['id'=>$sortie->getId()]);
         }
         //delegation au twig ajout.html.twig en passant en parametre le formulaire (sortieForm)
         return $this->render("sortie/create_sortie.html.twig", [
