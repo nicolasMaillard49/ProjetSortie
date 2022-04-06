@@ -42,34 +42,31 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             {% if app.user  %}
-                <a class="nav-item nav-link " href="{{ path("app_liste_sortie") }}">Accueil</a>
-                <a class="nav-item nav-link" href="{{ path("app_logout") }}">Se déconnecter</a>
+                <a class="nav-item nav-link" href="{{ path("app_liste_sortie") }}">Accueil</a>
+                <a class="nav-item nav-link" href="{{ path("app_profil_id",{id:app.user.id}) }}">Mon profil</a>
+
             {% if (not is_granted('ROLE_ADMIN')) %}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Ajouter
                 </a>
-
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{ path('app_ville_liste') }}">Ajouter une ville</a>
                     <a class="dropdown-item" href="{{ path('app_lieu_liste') }}">Ajouter un lieu</a>
                 </div>
+            </li>
              {% endif %}
             {% else %}
                 <a class="nav-item nav-link" href="{{ path("app_login") }}">Se connecter</a>
-
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
-
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Admin
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-
                     <a class="dropdown-item" href="{{ path('sortie_ajouter') }}">Créer une sortie</a>
                     <a class="dropdown-item" href="{{ path('app_register') }}">Créer un participant</a>
                     <a class="dropdown-item" href="{{ path('app_profil_liste') }}">Liste des participants</a>
@@ -77,16 +74,15 @@
                     <a class="dropdown-item" href="{{ path('app_lieu_liste') }}">Gérer les lieux</a>
                     <a class="dropdown-item" href="{{ path('app_ville_liste') }}">Gérer les villes</a>
 
-
-                    {% endif %}
                 </div>
-
             </li>
-
+            {% endif %}
+            <a class="nav-item nav-link" href="{{ path("app_logout") }}">Se déconnecter</a>
         </div>
 
     </div>
     {% if app.user() %}
+
     {% if app.user().images is empty %}
         <a class="nav-item nav-link d-flex justify-content-end mt-0 mb-0 p-0 me-2" href="{{ path("app_profil_id",{id:app.user.id}) }}">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgAJ2AL2BUJeYp3pvkvvWUg0bP1EkoyVqjog&usqp=CAU" class="rounded-circle mt-0" alt="Photo de profil" width="50px" >
