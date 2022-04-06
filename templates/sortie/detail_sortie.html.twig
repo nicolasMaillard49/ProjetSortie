@@ -74,24 +74,30 @@
             </div>
         </div>
     </div>
+    <div class="row mt-2 ms-5">
         {% if sortie.organisateur ==  app.user%}
             {% if sortie.etat.id == 1 %}
+                <div class="col-2">
             <a class="btn btn-primary btnEnr" href="{{ path('app_publier',{id:sortie.id}) }}">
                 publier la sortie
             </a>
+                </div>
             {% endif %}
             {% if  sortie.etat.id == 1 or sortie.etat.id == 2 or sortie.etat.id == 3 %}
+        <div class="col-2">
             <a class="btn btn-primary btnAnn" href="{{ path('app_annule_sortie',{id:sortie.id}) }}">
                annuler la sortie
             </a>
+        </div>
         {% endif %}
 
         {% endif %}
-
-    <a class="btn btn-primary ms-5" href="{{ path('app_liste_sortie')}}">
+        <div class="col-2">
+    <a class="btn btn-primary btnAnn" href="{{ path('app_liste_sortie')}}">
         Retour à l'accueil
     </a>
-
+        </div>
+    </div>
         {% set count = 0 %}
 
 <div class="row">
