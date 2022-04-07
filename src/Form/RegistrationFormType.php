@@ -29,6 +29,7 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('email', EmailType::class,[
                 'attr'=>["class"=>"border border-primary"],
+                'label' => '*Adresse email',
                 'constraints' => [
                     new NotBlank(),
                     new NotNull(),
@@ -37,6 +38,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('nom', TextType::class,[
                 'attr'=>["class"=>"border border-primary"],
+                'label' => '*Nom',
                 'constraints' => [
                     new NotBlank(),
                     new NotNull(),
@@ -50,6 +52,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('prenom', TextType::class,[
                 'attr'=>["class"=>"border border-primary"],
+                'label' => '*Prenom',
                 'constraints' => [
                     new NotBlank(),
                     new NotNull(),
@@ -63,6 +66,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('pseudo', TextType::class,[
                 'attr'=>["class"=>"border border-primary"],
+                'label' => '*Pseudo',
                 'constraints' => [
                     new NotBlank(),
                     new NotNull(),
@@ -71,6 +75,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('tel', TelType::class,[
                 'attr'=>["class"=>"border border-primary"],
+                'label' => '*Numero de téléphone',
                 'constraints' => [
                     new NotBlank(),
                     new NotNull(),
@@ -79,6 +84,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('site', EntityType::class,[
                 'class'=>Site::class,'choice_label'=>'nom',
+                'label' => '*Site',
                 'attr'=>["class"=>"border border-primary"]
                 ])
 
@@ -87,6 +93,7 @@ class RegistrationFormType extends AbstractType
                 // this is read and encoded in the controller
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password', "class"=>"border border-primary"],
+                'label' => '*Mot de passe',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez renseigner un mot de passe',
@@ -102,7 +109,7 @@ class RegistrationFormType extends AbstractType
 
             ->add('images', FileType::class,[
                 'attr'=>["class"=>"border border-primary"],
-                'label' => 'photo de profil',
+                'label' => 'Photo de profil',
                 'mapped' => false,
                 'required'=>false,
                 'constraints'=>[
@@ -121,6 +128,7 @@ class RegistrationFormType extends AbstractType
 
             ->add('agreeTerms', CheckboxType::class, [
                 'attr'=>["class"=>"border border-primary"],
+                'label' => 'Accepter les termes',
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([

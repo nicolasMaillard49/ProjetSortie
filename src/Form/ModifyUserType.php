@@ -38,6 +38,7 @@ class ModifyUserType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'attr' => ["class" => "border border-primary"],
+                'label' => '*Adresse email',
                 'constraints' => [
                     new NotBlank(),
                     new NotNull(),
@@ -46,6 +47,7 @@ class ModifyUserType extends AbstractType
             ])
             ->add('tel', TelType::class, [
                 'attr' => ["class" => "border border-primary"],
+                'label' => '*Numero de téléphone',
                 'constraints' => [
                     new NotBlank(),
                     new NotNull(),
@@ -54,6 +56,7 @@ class ModifyUserType extends AbstractType
             ])
             ->add('pseudo', TextType::class, [
                 'attr' => ["class" => "border border-primary"],
+                'label' => '*Pseudo',
                 'constraints' => [
                     new NotBlank(),
                     new NotNull(),
@@ -65,7 +68,7 @@ class ModifyUserType extends AbstractType
             ])
             ->add('images', FileType::class,[
                 'attr'=>["class"=>"border border-primary"],
-                'label' => 'photo de profil',
+                'label' => 'Photo de profil',
                 'mapped' => false,
                 'required'=>false,
                 'constraints'=>[
@@ -84,6 +87,7 @@ class ModifyUserType extends AbstractType
             $builder
                 ->add('site', EntityType::class, [
                     'attr' => ["class" => "border border-primary"],
+                    'label' => '*Site',
                     'class' => Site::class,
                     'choice_label' => 'nom',
                     'expanded' => false,
@@ -91,6 +95,7 @@ class ModifyUserType extends AbstractType
                 ])
                 ->add('nom', TextType::class, [
                     'attr' => ["class" => "border border-primary"],
+                    'label' => '*Nom',
                     'constraints' => [
                         new NotBlank(),
                         new NotNull(),
@@ -104,6 +109,7 @@ class ModifyUserType extends AbstractType
                 ])
                 ->add('prenom', TextType::class, [
                     'attr' => ["class" => "border border-primary"],
+                    'label' => '*Prenom',
                     'constraints' => [
                         new NotBlank(),
                         new NotNull(),
