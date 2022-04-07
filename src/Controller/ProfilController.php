@@ -9,6 +9,7 @@ use App\Repository\ImagesRepository;
 use App\Repository\ParticipantsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Message;
+use phpDocumentor\Reflection\Types\True_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -60,11 +61,11 @@ class ProfilController extends AbstractController
         $modifyUserForm->handleRequest($request);
         if($modifyUserForm->isSubmitted() && $modifyUserForm->isValid()){
 
-
-
-
-            //ont récupère l'image transmise
-            $images = $modifyUserForm->get('images')->getData();
+            if($modifyUserForm['actif']->getData() === false){
+                $user->setActif(0);
+                $user->setRoles(['ROLE_INACTIF']);
+            }
+             $images = $modifyUserForm->get('images')->getData();
 
             if($images != null){
                 if($user->getImages() != null){
@@ -147,7 +148,7 @@ class ProfilController extends AbstractController
             return $this->redirectToRoute('app_profil_modify_password');
         }
 
-  if ($request->get('old_password') != null && $request->get('new_password') != null && $request->get('new_password_confirm')
+        if ($request->get('old_password') != null && $request->get('new_password') != null && $request->get('new_password_confirm')
             != null && $request->get('new_password') == $request->get('new_password_confirm')) {
 
 

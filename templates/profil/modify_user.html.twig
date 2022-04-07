@@ -60,6 +60,9 @@
                     {{ form_row(modifyUserForm.images) }}
                     {% if(is_granted('ROLE_ADMIN')) %}
                         {{ form_row(modifyUserForm.site) }}
+                            <div class="form-check form-switch">
+                              {{ form_widget(modifyUserForm.actif) }}
+                            </div>
                     {% endif %}
                     <div class="row">
                         <div class="col-6 mt-4 text-center">
