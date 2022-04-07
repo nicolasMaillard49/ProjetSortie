@@ -47,6 +47,7 @@ class ProfilController extends AbstractController
      */
     public function modifier(Request $request, EntityManagerInterface $em, $id, ImagesRepository $imagerepo): Response
     {
+        //vérification si l'utilisateur existe et si l'utilisateur qui veut accéder à la page est bien celui connecté
         if(!$this->getUser()){
             return $this->redirectToRoute('app_login');
         }
@@ -55,41 +56,35 @@ class ProfilController extends AbstractController
                 return $this->redirectToRoute('app_liste_sortie');
             }
         }
-
+        //récupération de l'utilisateur dont on souhaite modifier les informations
         $user = $this->participantsRepo->find($id);
         $modifyUserForm = $this->createForm(ModifyUserType::class, $user);
         $modifyUserForm->handleRequest($request);
         if($modifyUserForm->isSubmitted() && $modifyUserForm->isValid()){
-
             if($modifyUserForm['actif']->getData() === false){
                 $user->setActif(0);
                 $roles[] = 'ROLE_INACTIF';
                 $user->setRoles($roles);
             }
              $images = $modifyUserForm->get('images')->getData();
-
             if($images != null){
                 if($user->getImages() != null){
                     $imageId = $user->getImages()->getId();
                     $image = $imagerepo->find($imageId);
                     $imagerepo->remove($image);
                 }
-                //ont génére un niuveau nom de fichieer aléatoire
+                //on genère un nouveau nom de fichier aléatoire
                 $fichier = md5(uniqid()). '.' .$images->guessExtension();
-
-                //ont copie le nom du fechier dans le dossier upload
+                //on copie le nom du fichier dans le dossier upload
                 $images->move(
                     $this->getParameter('images_directory'),
                     $fichier
                 );
-
-                //ont stocke le nom de l'image en bdd
+                //on stock le nom de l'image en bdd
                 $img = new Images();
                 $img->setName($fichier);
                 $user->setImages($img);
-
             }
-
             $em->persist($user);
             $em->flush();
 
