@@ -63,7 +63,8 @@ class ProfilController extends AbstractController
 
             if($modifyUserForm['actif']->getData() === false){
                 $user->setActif(0);
-                $user->setRoles(['ROLE_INACTIF']);
+                $roles[] = 'ROLE_INACTIF';
+                $user->setRoles($roles);
             }
              $images = $modifyUserForm->get('images')->getData();
 
